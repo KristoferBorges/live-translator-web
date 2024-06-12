@@ -14,6 +14,7 @@ const Footer = () => {
 
     if (message.trim().length < 3 || isLoading) return;
     sendMessage();
+    setMessage('');
   };
   return (
     <footer className="px-3 md:px-3 py-2 max-w-3xl m-auto w-full flex justify-center">
@@ -29,7 +30,7 @@ const Footer = () => {
           <ButtonIcon
             icon={FaCircleArrowUp}
             className="text-zinc-400 disabled:text-zinc-600"
-            disabled={message.length < 5}
+            disabled={message.length < 3}
           />
         </Input.root>
       </form>

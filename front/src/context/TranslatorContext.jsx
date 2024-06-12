@@ -37,14 +37,14 @@ const TranslatorProvider = ({ children }) => {
   const sendMessage = async () => {
     try {
       setIsLoading(true);
-      const body = {
+      const { url, options } = TEXT_POST({
         prefer: langChoice.prefer,
         response: langChoice.response,
         text: message,
-      };
-      const { url, options } = TEXT_POST(body);
+      });
+
       setChats((prev) => [...prev, { me: message }]);
-      setMessage('');
+
       const response = await fetch(url, options);
       if (!response.ok) throw new Error('Mensagem não enviada');
       const { translated_text } = await response.json();
