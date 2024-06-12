@@ -37,6 +37,7 @@ class TranslateRequest(BaseModel):
 @app.post("/api/translate")
 async def post_translate(request_data: TranslateRequest):
     translated_text = coletarDadosDeTexto(request_data.prefer, request_data.response, request_data.text)
+    # Faça com que o retorno seja um JSON
     return {"translated_text": translated_text}
 
 if __name__ == '__main__':
