@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-violet-900;
+}
+@layer utilities {
+  .to-right-animation {
+    animation: toRight 250ms;
+  }
+
+  /* Scrollbar Container */
+  .scroll-custom::-webkit-scrollbar {
+    @apply bg-transparent rounded-md overflow-hidden w-2 px-1;
+  }
+
+  /* Scrollbar Thumb */
+  .scroll-custom::-webkit-scrollbar-thumb {
+    @apply bg-neutral-700 rounded-md;
+  }
+
+  /* Scrollbar Thumb on Hover */
+  .scroll-custom::-webkit-scrollbar-thumb:hover {
+    @apply bg-neutral-600;
+  }
+}
+
+@keyframes toRight {
+  0% {
+    @apply -left-full;
+  }
+
+  100% {
+    @apply left-0;
+  }
+}
