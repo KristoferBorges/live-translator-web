@@ -1,6 +1,7 @@
-const API_URL = '';
+const API_URL = 'http://127.0.0.1:8000/api/translate';
 
 export const TEXT_POST = (body) => {
+  console.log(body)
   return {
     url: API_URL,
     options: {
