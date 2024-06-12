@@ -1,0 +1,40 @@
+{
+  "hash": "1eaf6211",
+  "configHash": "8b808fb7",
+  "lockfileHash": "6bd2673c",
+  "browserHash": "186e287b",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/.pnpm/react@18.3.1/node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "fb0a14e5",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/.pnpm/react-dom@18.3.1_react@18.3.1/node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "8c15e3f1",
+      "needsInterop": true
+    },
+    "react-icons/fa6": {
+      "src": "../../node_modules/.pnpm/react-icons@5.2.1_react@18.3.1/node_modules/react-icons/fa6/index.mjs",
+      "file": "react-icons_fa6.js",
+      "fileHash": "4df73fc2",
+      "needsInterop": false
+    },
+    "react-icons/bs": {
+      "src": "../../node_modules/.pnpm/react-icons@5.2.1_react@18.3.1/node_modules/react-icons/bs/index.mjs",
+      "file": "react-icons_bs.js",
+      "fileHash": "31f2c0ea",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-NGQ6BSUS": {
+      "file": "chunk-NGQ6BSUS.js"
+    },
+    "chunk-TRGVHMKN": {
+      "file": "chunk-TRGVHMKN.js"
+    }
+  }
+}

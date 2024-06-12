@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import { TEXT_POST } from '../api';
+import { TEXT_POST } from '../services/api';
 
 const TranslatorContext = createContext();
 
