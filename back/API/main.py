@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from pygame import mixer
+from gtts import gTTS
 from googletrans import Translator
 
 app = FastAPI()
@@ -20,15 +22,25 @@ app.add_middleware(
 
 def coletarDadosDeTexto(language1, language2, texto):
     """
-    Função responsável por coletar os dados do usuário por via de Texto.
+    Função responsável por coletar os dados do usuário por via de Texto e gravar um audio em uma pasta para uso do front-end.
     """
     try: 
         translator = Translator()
         translatedText = translator.translate(texto, src=language1[:2], dest=language2[:2])
+
+        mixer.init()
+
+        audio = gTTS(
+            text=translatedText.text,
+            lang=language2,
+        )
+
+        audio.save("..\\..\\front\\src\\assets\\audio\\audiotranslatedText.mp3")
         return translatedText.text
+    
     except Exception as e:
         return f"Erro: {e}"
-
+    
 class TranslateRequest(BaseModel):
     prefer: str
     response: str
