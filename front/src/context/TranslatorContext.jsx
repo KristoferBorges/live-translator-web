@@ -28,6 +28,10 @@ const TranslatorProvider = ({ children }) => {
       lang: 'es-ES',
       name: 'Espanhol',
     },
+    {
+      lang: 'ja',
+      name: 'Japones',
+    },
   ];
 
   const sendMessage = async () => {
@@ -40,15 +44,16 @@ const TranslatorProvider = ({ children }) => {
       };
       const { url, options } = TEXT_POST(body);
       setChats((prev) => [...prev, { me: message }]);
-
+      setMessage('');
       const response = await fetch(url, options);
       if (!response.ok) throw new Error('Mensagem não enviada');
-      const json = await response.json();
+      const { translated_text } = await response.json();
+
+      setChats((prev) => [...prev, { bot: `${translated_text}` }]);
     } catch (err) {
       setChats((prev) => [...prev, { bot: `${err}` }]);
     } finally {
       setIsLoading(false);
-      setMessage('');
     }
   };
 
