@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from pydantic import BaseModel
 from googletrans import Translator
 
 app = FastAPI()
@@ -28,9 +29,14 @@ def coletarDadosDeTexto(language1, language2, texto):
     except Exception as e:
         return f"Erro: {e}"
 
+class TranslateRequest(BaseModel):
+    prefer: str
+    response: str
+    text: str
+
 @app.post("/api/translate")
-async def get_translate(prefer='pt-br', response='ja', text='Bom dia!'):
-    translated_text = coletarDadosDeTexto(prefer, response, text)
+async def post_translate(request_data: TranslateRequest):
+    translated_text = coletarDadosDeTexto(request_data.prefer, request_data.response, request_data.text)
     return {"translated_text": translated_text}
 
 if __name__ == '__main__':
