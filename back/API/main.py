@@ -15,8 +15,8 @@ def coletarDadosDeTexto(language1, language2, texto):
 app = FastAPI()
 
 @app.get("/api/translate")
-async def get_translate(lang1='pt-br', lang2='ja', text='Bom dia!'):
-    translated_text = coletarDadosDeTexto(lang1, lang2, text)
+async def get_translate(prefer='pt-br', response='ja', text='Bom dia!'):
+    translated_text = coletarDadosDeTexto(prefer, response, text)
 
     return translated_text
 
