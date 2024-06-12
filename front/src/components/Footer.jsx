@@ -12,7 +12,7 @@ const Footer = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (message.trim().length < 5 || isLoading) return;
+    if (message.trim().length < 3 || isLoading) return;
     sendMessage();
   };
   return (
