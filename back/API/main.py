@@ -44,10 +44,6 @@ def coletarDadosDeTexto(language1, language2, texto):
             lang=language2,
         )
 
-        # Cria a pasta "Audio" caso não exista
-        if not os.path.exists("front\\src\\assets\\audio"):
-            os.makedirs("front\\src\\assets\\audio")
-
         audio.save("front\\src\\assets\\audio\\audiotranslatedText.mp3")
         return translatedText.text
     
@@ -70,10 +66,6 @@ def coletarDadosDeAudio(language1, language2, Audio):
             text=translatedText.text,
             lang=language2,
         )
-
-        # Cria a pasta "Audio" caso não exista
-        if not os.path.exists("front\\src\\assets\\audio"):
-            os.makedirs("front\\src\\assets\\audio")
 
         audio.save("front\\src\\assets\\audio\\audiotranslatedText.mp3")
         return translatedText.text
