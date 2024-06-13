@@ -8,6 +8,7 @@ const ChatTranslate = () => {
   useEffect(() => {
     chatRef.current.scrollIntoView({ behavior: 'smooth' });
     chatRef.current.scrollTop = chatRef.current.scrollHeight;
+    console.log('ola');
   }, [chats]);
   return (
     <main className="px-3 overflow-y-auto scroll-custom flex-1" ref={chatRef}>
