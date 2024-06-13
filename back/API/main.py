@@ -4,12 +4,13 @@ from pydantic import BaseModel
 from gtts import gTTS
 from googletrans import Translator
 import speech_recognition as sr
+import os
 
 app = FastAPI()
 
 # Configure CORS
 origins = [
-    "http://localhost:5173",  # Adicione outras origens permitidas aqui.
+    "http://localhost:5173",
 ]
 
 app.add_middleware(
