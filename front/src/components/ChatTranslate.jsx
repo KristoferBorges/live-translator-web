@@ -12,7 +12,6 @@ const ChatTranslate = () => {
   useEffect(() => {
     chatRef.current.scrollIntoView({ behavior: 'smooth' });
     chatRef.current.scrollTop = chatRef.current.scrollHeight;
-    console.log('ola');
   }, [chats]);
 
   function handlePlay() {
