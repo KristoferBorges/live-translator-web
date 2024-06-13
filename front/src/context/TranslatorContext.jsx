@@ -38,16 +38,16 @@ const TranslatorProvider = ({ children }) => {
     },
   ];
 
-  const sendMessage = async () => {
+  const sendMessage = async (transcript) => {
     try {
       setIsLoading(true);
       const { url, options } = TEXT_POST({
         prefer: langChoice.prefer,
         response: langChoice.response,
-        text: message,
+        text: transcript ? transcript : message,
       });
 
-      setChats((prev) => [...prev, { me: message }]);
+      setChats((prev) => [...prev, { me: transcript ? transcript : message }]);
 
       const response = await fetch(url, options);
       if (!response.ok) throw new Error('Mensagem não enviada');
@@ -60,8 +60,6 @@ const TranslatorProvider = ({ children }) => {
       setIsLoading(false);
     }
   };
-
-  const sendAudio = async () => {};
 
   useEffect(() => {
     window.addEventListener('resize', ({ target }) => {
@@ -90,7 +88,6 @@ const TranslatorProvider = ({ children }) => {
         isLoading,
         setIsLoading,
         sendMessage,
-        sendAudio,
         erro,
         setErro,
       }}
