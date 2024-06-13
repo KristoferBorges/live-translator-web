@@ -1,9 +1,10 @@
+import { useContext } from 'react';
+import { TranslatorContext } from '../context/TranslatorContext';
 import { Input } from './Input';
+import ButtonIcon from './ButtonIcon';
 import { FaCircleArrowUp } from 'react-icons/fa6';
 import { BsPaperclip } from 'react-icons/bs';
-import { TranslatorContext } from '../context/TranslatorContext';
-import { useContext } from 'react';
-import ButtonIcon from './ButtonIcon';
+import { FaMicrophone } from 'react-icons/fa';
 
 const Footer = () => {
   const { message, setMessage, isLoading, sendMessage } =
@@ -20,7 +21,7 @@ const Footer = () => {
     <footer className="px-3 md:px-3 py-2 max-w-3xl m-auto w-full flex justify-center">
       <form onSubmit={handleSubmit} className="flex-1">
         <Input.root>
-          <ButtonIcon icon={BsPaperclip} />
+          <ButtonIcon icon={FaMicrophone} />
           <Input.content
             type="text"
             placeholder="Pergunte algo"
