@@ -13,6 +13,7 @@ const ChatTranslate = () => {
     chatRef.current.scrollIntoView({ behavior: 'smooth' });
     chatRef.current.scrollTop = chatRef.current.scrollHeight;
     console.log('ola2');
+    console.log('ola2');
   }, [chats]);
 
   function handlePlay() {
