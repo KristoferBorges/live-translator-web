@@ -32,6 +32,10 @@ const TranslatorProvider = ({ children }) => {
       lang: 'ja',
       name: 'Japones',
     },
+    {
+      lang: 'ko',
+      name: 'Coreano',
+    },
   ];
 
   const sendMessage = async () => {
@@ -56,6 +60,8 @@ const TranslatorProvider = ({ children }) => {
       setIsLoading(false);
     }
   };
+
+  const sendAudio = async () => {};
 
   useEffect(() => {
     window.addEventListener('resize', ({ target }) => {
@@ -84,6 +90,7 @@ const TranslatorProvider = ({ children }) => {
         isLoading,
         setIsLoading,
         sendMessage,
+        sendAudio,
         erro,
         setErro,
       }}

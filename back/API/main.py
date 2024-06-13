@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from gtts import gTTS
 from googletrans import Translator
+import speech_recognition as sr
 
 app = FastAPI()
 
@@ -18,6 +19,16 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+class TranslateRequestText(BaseModel):
+    prefer: str
+    response: str
+    text: str
+
+class TranslateRequestAudio(BaseModel):
+    prefer: str
+    response: str
+    # Implementar o recebimento do audio ou deixar esplícito o caminho do arquivo de audio.
 
 def coletarDadosDeTexto(language1, language2, texto):
     """
@@ -37,15 +48,39 @@ def coletarDadosDeTexto(language1, language2, texto):
     
     except Exception as e:
         return f"Erro: {e}"
-    
-class TranslateRequest(BaseModel):
-    prefer: str
-    response: str
-    text: str
 
-@app.post("/api/translate")
-async def post_translate(request_data: TranslateRequest):
+def coletarDadosDeAudio(language1, language2, Audio):
+    """
+    Função resposável por coletar o audio do front-end e transformar em texto e traduzir para a linguagem desejada por via de audio.
+    """
+    try:
+        r = sr.Recognizer()
+
+        textoColetado = r.recognize_google(audio_data=Audio, language=language1)
+
+        translator = Translator()
+        translatedText = translator.translate(textoColetado, src=language1[:2], dest=language2[:2])
+
+        audio = gTTS(
+            text=translatedText.text,
+            lang=language2,
+        )
+
+        audio.save("front\\src\\assets\\audio\\audiotranslatedText.mp3")
+        return translatedText.text
+
+    except Exception as e:
+        return f"Erro: {e}"
+    
+
+@app.post("/api/translate/texto")
+async def post_translate_text(request_data: TranslateRequestText):
     translated_text = coletarDadosDeTexto(request_data.prefer, request_data.response, request_data.text)
+    return {"translated_text": translated_text}
+
+@app.post("/api/translate/audio")
+async def post_translate_audio(request_data: TranslateRequestAudio):
+    translated_text = coletarDadosDeAudio(request_data.prefer, request_data.response)
     return {"translated_text": translated_text}
 
 if __name__ == '__main__':
