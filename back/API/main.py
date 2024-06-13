@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from gtts import gTTS
 from googletrans import Translator
 import speech_recognition as sr
+import os
 
 app = FastAPI()
 
@@ -65,6 +66,10 @@ def coletarDadosDeAudio(language1, language2, Audio):
             text=translatedText.text,
             lang=language2,
         )
+
+        # Cria a pasta "Audio" caso não exista
+        if not os.path.exists("front\\src\\assets\\audio"):
+            os.makedirs("front\\src\\assets\\audio")
 
         audio.save("front\\src\\assets\\audio\\audiotranslatedText.mp3")
         return translatedText.text
