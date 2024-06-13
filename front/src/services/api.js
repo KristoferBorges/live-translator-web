@@ -2,7 +2,7 @@ const API_URL = 'http://127.0.0.1:8000/api/translate/';
 
 export const TEXT_POST = (body) => {
   return {
-    url: API_URL + 'texto',
+    url: API_URL + '/texto',
     options: {
       method: 'POST',
       headers: {
@@ -15,7 +15,7 @@ export const TEXT_POST = (body) => {
 
 export const AUDIO_POST = (body) => {
   return {
-    url: API_URL + 'audio',
+    url: API_URL + '/audio',
     options: {
       method: 'POST',
       body: JSON.stringify(body),
