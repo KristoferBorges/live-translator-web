@@ -9,7 +9,7 @@ app = FastAPI()
 
 # Configure CORS
 origins = [
-    "http://localhost:5173",  # Adicione outras origens permitidas aqui. agr vai
+    "http://localhost:5173",  # Adicione outras origens permitidas aqui.
 ]
 
 app.add_middleware(
