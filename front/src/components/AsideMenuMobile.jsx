@@ -21,7 +21,11 @@ const AsideMenuMobile = () => {
         ref={asideRef}
       >
         <header className="mb-5 py-4 h-14 flex justify-between items-center px-3 md:p-0 sticky top-0 bg-zinc-900">
-          <ButtonIcon onClick={() => setMenuMobile(false)} icon={MenuSVG} />
+          <ButtonIcon
+            onClick={() => setMenuMobile(false)}
+            icon={MenuSVG}
+            aria-label="Fecha menu"
+          />
         </header>
         <LanguageSelect title={'Idioma desejado'} choice="prefer" />
         <LanguageSelect title={'Idioma destino'} choice="response" />

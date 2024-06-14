@@ -18,7 +18,7 @@ const Footer = () => {
     recognition.lang = langChoice.prefer;
   }
 
-  const handleMicClick = useCallback(() => {
+  const handleMicClick = () => {
     if (recognition && !listening) {
       recognition.onstart = () => {
         setListening(true);
@@ -38,7 +38,7 @@ const Footer = () => {
 
       recognition.start();
     }
-  }, []);
+  };
 
   const handleSubmit = (e) => {
     if (e) e.preventDefault();
@@ -68,6 +68,7 @@ const Footer = () => {
             icon={FaCircleArrowUp}
             className="text-zinc-400 disabled:text-zinc-600"
             disabled={message.length < 3 || isLoading}
+            aria-label="Enviar mensagem"
           />
         </Input.root>
       </form>

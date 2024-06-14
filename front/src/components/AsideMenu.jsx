@@ -14,7 +14,11 @@ const AsideMenu = () => {
     >
       <div data-menu={menu} className="flex flex-col">
         <header className="mb-5 h-14 flex justify-between items-center px-3 md:p-0 sticky top-0 bg-neutral-900">
-          <ButtonIcon onClick={() => setMenu(!menu)} icon={MenuSVG} />
+          <ButtonIcon
+            onClick={() => setMenu(!menu)}
+            icon={MenuSVG}
+            aria-label="Fecha menu"
+          />
         </header>
         <LanguageSelect title={'Idioma desejado'} choice="prefer" />
         <LanguageSelect title={'Idioma destino'} choice="response" />
