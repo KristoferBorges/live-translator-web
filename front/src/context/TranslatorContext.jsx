@@ -36,6 +36,18 @@ const TranslatorProvider = ({ children }) => {
       lang: 'ko',
       name: 'Coreano',
     },
+    {
+      lang: 'ar',
+      name: 'Arabe',
+    },
+    {
+      lang: 'ru',
+      name: 'Russo',
+    },
+    {
+      lang: 'de',
+      name: 'Alemão',
+    },
   ];
 
   const sendMessage = async (transcript) => {

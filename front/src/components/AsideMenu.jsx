@@ -1,6 +1,5 @@
 import LanguageSelect from './LanguageSelect';
 import MenuSVG from '../assets/menuSVG.svg?react';
-import WriteSVG from '../assets/writeSVG.svg?react';
 import { useContext } from 'react';
 import { TranslatorContext } from '../context/TranslatorContext';
 import ButtonIcon from './ButtonIcon';
@@ -14,9 +13,8 @@ const AsideMenu = () => {
       data-menu={menu}
     >
       <div data-menu={menu} className="flex flex-col">
-        <header className="mb-10 h-14 flex justify-between items-center px-3 md:p-0">
+        <header className="mb-5 h-14 flex justify-between items-center px-3 md:p-0 sticky top-0 bg-neutral-900">
           <ButtonIcon onClick={() => setMenu(!menu)} icon={MenuSVG} />
-          <ButtonIcon icon={WriteSVG} />
         </header>
         <LanguageSelect title={'Idioma desejado'} choice="prefer" />
         <LanguageSelect title={'Idioma destino'} choice="response" />

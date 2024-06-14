@@ -1,4 +1,11 @@
-import { useEffect, useRef, useContext, Fragment, useState } from 'react';
+import {
+  useEffect,
+  useRef,
+  useContext,
+  Fragment,
+  useState,
+  useCallback,
+} from 'react';
 import { TranslatorContext } from '../context/TranslatorContext';
 import audioFile from '../assets/audio/audiotranslatedText.mp3';
 import BotSVG from '../assets/bot.svg?react';
@@ -10,16 +17,15 @@ const ChatTranslate = () => {
   const chatRef = useRef();
   const audioRef = useRef();
 
-  const handlePlay = () => {
-    if (audioRef.current && isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-      return;
-    }
-
+  const handlePlay = useCallback(() => {
     audioRef.current.play();
     setIsPlaying(true);
-  };
+  }, []);
+
+  const handlePause = useCallback(() => {
+    audioRef.current.pause();
+    setIsPlaying(false);
+  }, []);
 
   useEffect(() => {
     chatRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -45,16 +51,17 @@ const ChatTranslate = () => {
                 className="p-3 rounded-md self-start flex gap-3 items-center"
                 key={chat.bot}
               >
-                <div className="self-start border-neutral-700 border-2 p-2 rounded-full  ">
-                  <BotSVG className="size-5 " />
+                <div className="self-start">
+                  <BotSVG className="size-7" />
                 </div>
                 <p className="leading-8">{chat.bot}</p>
                 {index === chats.length - 1 && (
-                  <span
-                    className="p-2 bg-neutral-700 rounded-full cursor-pointer hover:bg-neutral-600"
-                    onClick={handlePlay}
-                  >
-                    {isPlaying ? <FaPause size={10} /> : <FaPlay size={10} />}
+                  <span className="p-2 bg-neutral-700 rounded-full cursor-pointer hover:bg-neutral-600">
+                    {isPlaying ? (
+                      <FaPause size={10} onClick={handlePause} />
+                    ) : (
+                      <FaPlay size={10} onClick={handlePlay} />
+                    )}
                   </span>
                 )}
               </div>
@@ -62,11 +69,7 @@ const ChatTranslate = () => {
           </Fragment>
         ))}
       </div>
-      <audio
-        src={audioFile}
-        ref={audioRef}
-        onEnded={() => setIsPlaying(false)}
-      ></audio>
+      <audio src={audioFile} ref={audioRef} onEnded={handlePause}></audio>
     </main>
   );
 };
