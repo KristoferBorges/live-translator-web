@@ -16,7 +16,6 @@ const AsideMenu = () => {
       <div data-menu={menu} className="flex flex-col">
         <header className="mb-10 h-14 flex justify-between items-center px-3 md:p-0">
           <ButtonIcon onClick={() => setMenu(!menu)} icon={MenuSVG} />
-          <ButtonIcon icon={WriteSVG} />
         </header>
         <LanguageSelect title={'Idioma desejado'} choice="prefer" />
         <LanguageSelect title={'Idioma destino'} choice="response" />
