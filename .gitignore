@@ -1,5 +1,6 @@
 # Arquivos temporários
-*.mp3
+audiotranslatedText.mp3
+audiotranslatedText
 !pasta/.gitkeep
 
 # Logs
