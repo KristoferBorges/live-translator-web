@@ -18,7 +18,7 @@ const AsideMenuMobile = () => {
   return (
     <aside className="fixed inset-0 w-full h-full z-10 bg-zinc-950/90">
       <div
-        className="fixed w-64 h-full px-4 z-20 bg-zinc-900 to-right-animation"
+        className="fixed w-64 h-full px-4 z-20 bg-zinc-900 to-right-animation flex flex-col"
         ref={asideRef}
       >
         <header className="mb-10 h-14 flex justify-between items-center px-3 md:p-0">
