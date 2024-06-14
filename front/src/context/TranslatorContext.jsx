@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import { TEXT_POST } from '../services/api';
+import { AUDIO_GET, TEXT_POST } from '../services/api';
 
 const TranslatorContext = createContext();
 
@@ -72,6 +72,18 @@ const TranslatorProvider = ({ children }) => {
       setIsLoading(false);
     }
   };
+
+  const getAUDIO = async () => {
+    try {
+      const { url, options } = AUDIO_GET();
+
+      const response = await fetch(url, options);
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  getAUDIO();
 
   useEffect(() => {
     window.addEventListener('resize', ({ target }) => {

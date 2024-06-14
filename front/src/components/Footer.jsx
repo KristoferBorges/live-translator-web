@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { TranslatorContext } from '../context/TranslatorContext';
 import { Input } from './Input';
 import ButtonIcon from './ButtonIcon';
