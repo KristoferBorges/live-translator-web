@@ -10,10 +10,13 @@ const Footer = () => {
     useContext(TranslatorContext);
   const [listening, setListening] = useState(false);
 
+  let recognition = null;
   const SpeechRecognition =
     window.SpeechRecognition || window.webkitSpeechRecognition;
-  const recognition = new SpeechRecognition();
-  recognition.lang = langChoice.prefer;
+  if (SpeechRecognition) {
+    recognition = new SpeechRecognition();
+    recognition.lang = langChoice.prefer;
+  }
 
   const handleMicClick = useCallback(() => {
     if (recognition && !listening) {
@@ -35,7 +38,7 @@ const Footer = () => {
 
       recognition.start();
     }
-  }, [recognition]);
+  }, []);
 
   const handleSubmit = (e) => {
     if (e) e.preventDefault();
@@ -48,11 +51,13 @@ const Footer = () => {
     <footer className="px-3 md:px-3 py-2 max-w-3xl m-auto w-full flex justify-center">
       <form onSubmit={handleSubmit} className="flex-1">
         <Input.root>
-          <FaMicrophone
-            onClick={handleMicClick}
-            className={`${listening ? 'text-blue-600' : 'text-neutral-300'}`}
-            size={24}
-          />
+          {recognition && (
+            <FaMicrophone
+              onClick={handleMicClick}
+              className={`${listening ? 'text-blue-600' : 'text-neutral-300'}`}
+              size={24}
+            />
+          )}
           <Input.content
             type="text"
             placeholder="Pergunte algo"
