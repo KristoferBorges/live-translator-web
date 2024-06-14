@@ -18,7 +18,7 @@ const Footer = () => {
     recognition.lang = langChoice.prefer;
   }
 
-  const handleMicClick = useCallback(() => {
+  const handleMicClick = () => {
     if (recognition && !listening) {
       recognition.onstart = () => {
         setListening(true);
@@ -38,7 +38,7 @@ const Footer = () => {
 
       recognition.start();
     }
-  }, []);
+  };
 
   const handleSubmit = (e) => {
     if (e) e.preventDefault();
