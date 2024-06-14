@@ -1,6 +1,5 @@
 import LanguageSelect from './LanguageSelect';
 import MenuSVG from '../assets/menuSVG.svg?react';
-import WriteSVG from '../assets/writeSVG.svg?react';
 import { useContext } from 'react';
 import { TranslatorContext } from '../context/TranslatorContext';
 import ButtonIcon from './ButtonIcon';

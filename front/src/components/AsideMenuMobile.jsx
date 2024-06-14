@@ -1,6 +1,5 @@
 import React from 'react';
 import MenuSVG from '../assets/menuSVG.svg?react';
-import WriteSVG from '../assets/writeSVG.svg?react';
 import LanguageSelect from './LanguageSelect';
 import useOutsideClick from '../hooks/useOutsideClick';
 import { useRef, useContext, memo } from 'react';
