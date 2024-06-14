@@ -8,13 +8,18 @@ const Header = () => {
     <header className="w-full p-3 max-h-14">
       <div className="flex items-center w-full gap-3 px-3">
         {/* Menu Small screen */}
-        <button onClick={() => setMenuMobile(true)} className="md:hidden">
+        <button
+          onClick={() => setMenuMobile(true)}
+          className="md:hidden"
+          aria-label="Abrir menu"
+        >
           <MenuSVG />
         </button>
         {/* Menu medium/large screen */}
         <button
           onClick={() => setMenu(true)}
           className="hidden data-[menu=true]:hidden md:flex"
+          aria-label="Abrir menu"
           data-menu={menu}
         >
           <MenuSVG />

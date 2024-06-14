@@ -68,6 +68,7 @@ const Footer = () => {
             icon={FaCircleArrowUp}
             className="text-zinc-400 disabled:text-zinc-600"
             disabled={message.length < 3 || isLoading}
+            aria-label="Enviar mensagem"
           />
         </Input.root>
       </form>
