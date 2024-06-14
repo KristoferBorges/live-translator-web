@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { TranslatorContext } from '../context/TranslatorContext';
 import { Input } from './Input';
 import ButtonIcon from './ButtonIcon';
@@ -15,7 +15,7 @@ const Footer = () => {
   const recognition = new SpeechRecognition();
   recognition.lang = langChoice.prefer;
 
-  const handleMicClick = () => {
+  const handleMicClick = useCallback(() => {
     if (recognition && !listening) {
       recognition.onstart = () => {
         setListening(true);
@@ -35,7 +35,7 @@ const Footer = () => {
 
       recognition.start();
     }
-  };
+  }, [recognition]);
 
   const handleSubmit = (e) => {
     if (e) e.preventDefault();

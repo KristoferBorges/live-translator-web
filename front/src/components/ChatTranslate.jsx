@@ -1,10 +1,25 @@
-import { useEffect, useRef, useContext, Fragment } from 'react';
+import { useEffect, useRef, useContext, Fragment, useState } from 'react';
 import { TranslatorContext } from '../context/TranslatorContext';
+import audioFile from '../assets/audio/audiotranslatedText.mp3';
 import BotSVG from '../assets/bot.svg?react';
+import { FaPlay, FaPause } from 'react-icons/fa';
 
 const ChatTranslate = () => {
   const { chats } = useContext(TranslatorContext);
+  const [isPlaying, setIsPlaying] = useState(false);
   const chatRef = useRef();
+  const audioRef = useRef();
+
+  const handlePlay = () => {
+    if (audioRef.current && isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+      return;
+    }
+
+    audioRef.current.play();
+    setIsPlaying(true);
+  };
 
   useEffect(() => {
     chatRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -34,11 +49,24 @@ const ChatTranslate = () => {
                   <BotSVG className="size-5 " />
                 </div>
                 <p className="leading-8">{chat.bot}</p>
+                {index === chats.length - 1 && (
+                  <span
+                    className="p-2 bg-neutral-700 rounded-full cursor-pointer hover:bg-neutral-600"
+                    onClick={handlePlay}
+                  >
+                    {isPlaying ? <FaPause size={10} /> : <FaPlay size={10} />}
+                  </span>
+                )}
               </div>
             )}
           </Fragment>
         ))}
       </div>
+      <audio
+        src={audioFile}
+        ref={audioRef}
+        onEnded={() => setIsPlaying(false)}
+      ></audio>
     </main>
   );
 };
