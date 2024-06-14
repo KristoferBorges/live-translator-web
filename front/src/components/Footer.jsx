@@ -48,10 +48,10 @@ const Footer = () => {
     <footer className="px-3 md:px-3 py-2 max-w-3xl m-auto w-full flex justify-center">
       <form onSubmit={handleSubmit} className="flex-1">
         <Input.root>
-          <ButtonIcon
-            icon={FaMicrophone}
+          <FaMicrophone
             onClick={handleMicClick}
             className={`${listening ? 'text-blue-600' : 'text-neutral-300'}`}
+            size={24}
           />
           <Input.content
             type="text"
