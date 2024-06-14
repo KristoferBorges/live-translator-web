@@ -1,4 +1,11 @@
-import { useEffect, useRef, useContext, Fragment, useState } from 'react';
+import {
+  useEffect,
+  useRef,
+  useContext,
+  Fragment,
+  useState,
+  useCallback,
+} from 'react';
 import { TranslatorContext } from '../context/TranslatorContext';
 import audioFile from '../assets/audio/audiotranslatedText.mp3';
 import BotSVG from '../assets/bot.svg?react';
@@ -10,15 +17,15 @@ const ChatTranslate = () => {
   const chatRef = useRef();
   const audioRef = useRef();
 
-  const handlePlay = () => {
+  const handlePlay = useCallback(() => {
     audioRef.current.play();
     setIsPlaying(true);
-  };
+  }, []);
 
-  const handlePause = () => {
+  const handlePause = useCallback(() => {
     audioRef.current.pause();
     setIsPlaying(false);
-  };
+  }, []);
 
   useEffect(() => {
     chatRef.current.scrollIntoView({ behavior: 'smooth' });
