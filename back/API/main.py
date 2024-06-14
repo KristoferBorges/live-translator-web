@@ -6,6 +6,11 @@ from googletrans import Translator
 import speech_recognition as sr
 import os
 
+# Ao iniciar o servidor, o arquivo de audio é criado na pasta assets do front-end
+mp3_path = "front\\src\\assets\\audio\\audiotranslatedText.mp3"
+with open(mp3_path, "wb") as f:
+    f.write(b'\x00')
+
 app = FastAPI()
 
 # Configure CORS

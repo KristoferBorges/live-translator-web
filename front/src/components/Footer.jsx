@@ -1,17 +1,44 @@
-import { useContext } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { TranslatorContext } from '../context/TranslatorContext';
 import { Input } from './Input';
 import ButtonIcon from './ButtonIcon';
 import { FaCircleArrowUp } from 'react-icons/fa6';
-import { BsPaperclip } from 'react-icons/bs';
 import { FaMicrophone } from 'react-icons/fa';
 
 const Footer = () => {
-  const { message, setMessage, isLoading, sendMessage } =
+  const { message, setMessage, isLoading, sendMessage, langChoice } =
     useContext(TranslatorContext);
+  const [listening, setListening] = useState(false);
+
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+  const recognition = new SpeechRecognition();
+  recognition.lang = langChoice.prefer;
+
+  const handleMicClick = useCallback(() => {
+    if (recognition && !listening) {
+      recognition.onstart = () => {
+        setListening(true);
+      };
+      recognition.onend = () => {
+        setListening(false);
+      };
+      recognition.onresult = (e) => {
+        const transcript = e.results[0][0].transcript;
+        if (transcript.length > 3) sendMessage(transcript);
+      };
+
+      recognition.onerror = (e) => {
+        console.error('Recognition error:', e.error);
+        setListening(false);
+      };
+
+      recognition.start();
+    }
+  }, [recognition]);
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
 
     if (message.trim().length < 3 || isLoading) return;
     sendMessage();
@@ -21,7 +48,11 @@ const Footer = () => {
     <footer className="px-3 md:px-3 py-2 max-w-3xl m-auto w-full flex justify-center">
       <form onSubmit={handleSubmit} className="flex-1">
         <Input.root>
-          <ButtonIcon icon={FaMicrophone} />
+          <ButtonIcon
+            icon={FaMicrophone}
+            onClick={handleMicClick}
+            className={`${listening ? 'text-blue-600' : 'text-neutral-300'}`}
+          />
           <Input.content
             type="text"
             placeholder="Pergunte algo"
@@ -31,7 +62,7 @@ const Footer = () => {
           <ButtonIcon
             icon={FaCircleArrowUp}
             className="text-zinc-400 disabled:text-zinc-600"
-            disabled={message.length < 3}
+            disabled={message.length < 3 || isLoading}
           />
         </Input.root>
       </form>

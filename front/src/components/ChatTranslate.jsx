@@ -1,21 +1,16 @@
 import { useEffect, useRef, useContext, Fragment, useState } from 'react';
 import { TranslatorContext } from '../context/TranslatorContext';
+import audioFile from '../assets/audio/audiotranslatedText.mp3';
 import BotSVG from '../assets/bot.svg?react';
 import { FaPlay, FaPause } from 'react-icons/fa';
-import audioFile from '../assets/audio/audiotranslatedText.mp3';
 
 const ChatTranslate = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
   const { chats } = useContext(TranslatorContext);
+  const [isPlaying, setIsPlaying] = useState(false);
   const chatRef = useRef();
   const audioRef = useRef();
-  useEffect(() => {
-    chatRef.current.scrollIntoView({ behavior: 'smooth' });
-    chatRef.current.scrollTop = chatRef.current.scrollHeight;
-    console.log('ola');
-  }, [chats]);
 
-  function handlePlay() {
+  const handlePlay = () => {
     if (audioRef.current && isPlaying) {
       audioRef.current.pause();
       setIsPlaying(false);
@@ -24,7 +19,13 @@ const ChatTranslate = () => {
 
     audioRef.current.play();
     setIsPlaying(true);
-  }
+  };
+
+  useEffect(() => {
+    chatRef.current.scrollIntoView({ behavior: 'smooth' });
+    chatRef.current.scrollTop = chatRef.current.scrollHeight;
+  }, [chats]);
+
   return (
     <main className="px-3 overflow-y-auto scroll-custom flex-1" ref={chatRef}>
       <div className="w-full min-h-full flex-1 max-w-3xl m-auto flex flex-col gap-2 md:px-3 justify-end">
@@ -61,7 +62,6 @@ const ChatTranslate = () => {
           </Fragment>
         ))}
       </div>
-
       <audio
         src={audioFile}
         ref={audioRef}
