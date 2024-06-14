@@ -1,4 +1,4 @@
-# Arquivos temporários
+# Arquivos temporários test
 *.mp3
 !/audio/.gitkeep
 front\src\assets\audio\audiotranslatedText.mp3
