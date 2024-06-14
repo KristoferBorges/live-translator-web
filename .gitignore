@@ -1,3 +1,7 @@
+# Arquivos temporários
+*.mp3
+!pasta/.gitkeep
+
 # Logs
 logs
 *.log
@@ -22,5 +26,3 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-*.mp3
-!pasta/.gitkeep
