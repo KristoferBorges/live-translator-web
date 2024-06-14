@@ -1,5 +1,6 @@
 # Arquivos temporários
-
+*.mp3
+!/audio/.gitkeep
 
 # Logs
 logs
