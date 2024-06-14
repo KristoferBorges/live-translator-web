@@ -44,8 +44,8 @@ const ChatTranslate = () => {
                 className="p-3 rounded-md self-start flex gap-3 items-center"
                 key={chat.bot}
               >
-                <div className="self-start border-neutral-700 border-2 p-2 rounded-full  ">
-                  <BotSVG className="size-6" />
+                <div className="self-start">
+                  <BotSVG className="size-7" />
                 </div>
                 <p className="leading-8">{chat.bot}</p>
                 {index === chats.length - 1 && (
