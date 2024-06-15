@@ -5,8 +5,6 @@ from pydantic import BaseModel
 from gtts import gTTS
 from googletrans import Translator
 import speech_recognition as sr
-from flask import Flask, send_file, Response
-import os
 
 app = FastAPI()
 
