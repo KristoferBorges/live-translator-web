@@ -5,6 +5,8 @@ from pydantic import BaseModel
 from gtts import gTTS
 from googletrans import Translator
 import speech_recognition as sr
+from flask import Flask, send_file, Response
+import os
 
 app = FastAPI()
 
@@ -84,21 +86,24 @@ def coletarDadosDeAudio(language1, language2, Audio):
 async def post_translate_text(request_data: TranslateRequestText):
     """
     API responsável por realizar a tradução do texto, além de criar um audio com base na tradução.
-    --> Envia para o Front o texto traduzido e o audio.
     """
     translated_text = coletarDadosDeTexto(request_data.prefer,
                                           request_data.response,
                                           request_data.text)
 
-    file_path = "audiotranslatedText.mp3"
-    translated_audio = FileResponse(file_path,
-                                    media_type='audio/mpeg',
-                                    filename='arquivo.mp3')
+    return {"translated_text": translated_text}
 
-    return {
-        "translated_text": translated_text,
-        "translated_audio": translated_audio
-    }
+
+@app.get("/api/translate/get-audio")
+async def get_translate_audio():
+    """
+    API resposável por coletar o audio gerado e encaminhar para o front-end.
+    """
+    file_path = "audiotranslatedText.mp3"
+
+    return FileResponse(file_path,
+                        media_type='audio/mpeg',
+                        filename='arquivo.mp3')
 
 
 if __name__ == '__main__':
