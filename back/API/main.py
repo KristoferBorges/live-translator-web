@@ -5,9 +5,7 @@ from pydantic import BaseModel
 from gtts import gTTS
 from googletrans import Translator
 import speech_recognition as sr
-import os
 
-# Ao iniciar o servidor, o arquivo de audio é criado na pasta assets do front-end
 app = FastAPI()
 
 # Configure CORS
@@ -25,15 +23,12 @@ app.add_middleware(
 
 
 class TranslateRequestText(BaseModel):
+    """
+    Base modelo para requisição de texto para tradução
+    """
     prefer: str
     response: str
     text: str
-
-
-class TranslateRequestAudio(BaseModel):
-    prefer: str
-    response: str
-    # Implementar o recebimento do audio ou deixar esplícito o caminho do arquivo de audio.
 
 
 def coletarDadosDeTexto(language1, language2, texto):
@@ -51,7 +46,7 @@ def coletarDadosDeTexto(language1, language2, texto):
             lang=language2,
         )
 
-        audio.save("front\\src\\assets\\audio\\audiotranslatedText.mp3")
+        audio.save("audiotranslatedText.mp3")
         return translatedText.text
 
     except Exception as e:
@@ -87,26 +82,23 @@ def coletarDadosDeAudio(language1, language2, Audio):
 
 @app.post("/api/translate/texto")
 async def post_translate_text(request_data: TranslateRequestText):
+    """
+    API responsável por realizar a tradução do texto, além de criar um audio com base na tradução.
+    --> Envia para o Front o texto traduzido e o audio.
+    """
     translated_text = coletarDadosDeTexto(request_data.prefer,
                                           request_data.response,
                                           request_data.text)
-    return {"translated_text": translated_text}
 
-
-@app.post("/api/translate/audio")
-async def post_translate_audio(request_data: TranslateRequestAudio):
-    translated_text = coletarDadosDeAudio(request_data.prefer,
-                                          request_data.response)
-    return {"translated_text": translated_text}
-
-
-@app.get("/api/translate/get-audio")
-async def get_audio():
     file_path = "audiotranslatedText.mp3"
+    translated_audio = FileResponse(file_path,
+                                    media_type='audio/mpeg',
+                                    filename='arquivo.mp3')
 
-    return FileResponse(file_path,
-                        media_type='audio/mpeg',
-                        filename='arquivo.mp3')
+    return {
+        "translated_text": translated_text,
+        "translated_audio": translated_audio
+    }
 
 
 if __name__ == '__main__':
