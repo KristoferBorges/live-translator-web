@@ -1,5 +1,6 @@
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useMemo } from 'react';
 import { AUDIO_GET, TEXT_POST } from '../services/api';
+import axios from 'axios';
 
 const TranslatorContext = createContext();
 
@@ -12,10 +13,10 @@ const TranslatorProvider = ({ children }) => {
     prefer: 'pt-br',
     response: 'en-us',
   });
-  const [erro, setErro] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [audioUrl, setAudioUrl] = useState(null);
 
-  const LanguagesAvailable = [
+  const LanguagesAvailable = useMemo(() => [
     {
       lang: 'pt-br',
       name: 'Português',
@@ -48,12 +49,13 @@ const TranslatorProvider = ({ children }) => {
       lang: 'de',
       name: 'Alemão',
     },
-  ];
+  ]);
 
   const sendMessage = async (transcript) => {
     try {
       setIsLoading(true);
-      const { url, options } = TEXT_POST({
+
+      const { url, content } = TEXT_POST({
         prefer: langChoice.prefer,
         response: langChoice.response,
         text: transcript ? transcript : message,
@@ -61,11 +63,12 @@ const TranslatorProvider = ({ children }) => {
 
       setChats((prev) => [...prev, { me: transcript ? transcript : message }]);
 
-      const response = await fetch(url, options);
-      if (!response.ok) throw new Error('Mensagem não enviada');
-      const { translated_text } = await response.json();
+      const response = await axios.post(url, content);
+      if (!response === '200') throw new Error('Mensagem não enviada');
+      await getAudio();
+      const { translated_text } = response.data;
 
-      setChats((prev) => [...prev, { bot: `${translated_text}` }]);
+      setChats((prev) => [...prev, { bot: translated_text }]);
     } catch (err) {
       setChats((prev) => [...prev, { bot: `${err}` }]);
     } finally {
@@ -73,17 +76,14 @@ const TranslatorProvider = ({ children }) => {
     }
   };
 
-  const getAUDIO = async () => {
-    try {
-      const { url, options } = AUDIO_GET();
+  const getAudio = async () => {
+    const { url } = AUDIO_GET();
+    const response = await fetch(url);
+    const blob = await response.blob();
 
-      const response = await fetch(url, options);
-      console.log(response);
-    } catch (err) {
-      console.log(err);
-    }
+    const urlAudio = URL.createObjectURL(blob);
+    setAudioUrl(urlAudio);
   };
-  getAUDIO();
 
   useEffect(() => {
     window.addEventListener('resize', ({ target }) => {
@@ -95,6 +95,7 @@ const TranslatorProvider = ({ children }) => {
       }
     });
   }, []);
+
   return (
     <TranslatorContext.Provider
       value={{
@@ -112,8 +113,7 @@ const TranslatorProvider = ({ children }) => {
         isLoading,
         setIsLoading,
         sendMessage,
-        erro,
-        setErro,
+        audioUrl,
       }}
     >
       {children}

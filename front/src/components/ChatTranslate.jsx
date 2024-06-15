@@ -7,25 +7,24 @@ import {
   useCallback,
 } from 'react';
 import { TranslatorContext } from '../context/TranslatorContext';
-import audioFile from '../assets/audio/audiotranslatedText.mp3';
 import BotSVG from '../assets/bot.svg?react';
 import { FaPlay, FaPause } from 'react-icons/fa';
 
 const ChatTranslate = () => {
-  const { chats } = useContext(TranslatorContext);
+  const { chats, audioUrl } = useContext(TranslatorContext);
   const [isPlaying, setIsPlaying] = useState(false);
   const chatRef = useRef();
   const audioRef = useRef();
 
-  const handlePlay = useCallback(() => {
+  const handlePlay = () => {
     audioRef.current.play();
     setIsPlaying(true);
-  }, []);
+  };
 
-  const handlePause = useCallback(() => {
+  const handlePause = () => {
     audioRef.current.pause();
     setIsPlaying(false);
-  }, []);
+  };
 
   useEffect(() => {
     chatRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -69,7 +68,9 @@ const ChatTranslate = () => {
           </Fragment>
         ))}
       </div>
-      <audio src={audioFile} ref={audioRef} onEnded={handlePause}></audio>
+      {audioUrl && (
+        <audio src={audioUrl} ref={audioRef} onEnded={handlePause}></audio>
+      )}
     </main>
   );
 };
