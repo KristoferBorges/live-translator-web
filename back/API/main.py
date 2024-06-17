@@ -5,6 +5,7 @@ from pydantic import BaseModel
 from gtts import gTTS
 from googletrans import Translator
 import pandas as pd
+from datetime import datetime
 import openpyxl
 import os
 
@@ -48,14 +49,24 @@ def coletarDados(language1, language2, text_enviado, text_traduzido):
         if os.path.exists(file_path):
             df = pd.read_excel(file_path)
         else:
-            df = pd.DataFrame(columns=['Idioma de fala', 'Idioma de Tradução', 'Texto enviado', 'Texto traduzido'])
+            df = pd.DataFrame(columns=[
+                'Idioma de fala',
+                'Idioma de Tradução',
+                'Texto enviado',
+                'Texto traduzido',
+                'Horário acessado',
+            ])
+
+        # Obtém o horário atual
+        horario_acessado = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
 
         # Novo dado
         new_data = pd.DataFrame([{
             "Idioma de fala": language1,
             "Idioma de Tradução": language2,
             "Texto enviado": text_enviado,
-            "Texto traduzido": text_traduzido
+            "Texto traduzido": text_traduzido,
+            "Horário acessado": horario_acessado
         }])
 
         # Adiciona a nova linha ao DataFrame usando pd.concat
