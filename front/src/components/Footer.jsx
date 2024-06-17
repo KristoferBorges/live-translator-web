@@ -19,7 +19,7 @@ const Footer = () => {
   }
 
   const handleMicClick = () => {
-    if (recognition && !listening) {
+    if (recognition && !listening && !isLoading) {
       recognition.onstart = () => {
         setListening(true);
       };
@@ -43,7 +43,7 @@ const Footer = () => {
   const handleSubmit = (e) => {
     if (e) e.preventDefault();
 
-    if (message.trim().length < 3 || isLoading) return;
+    if (message.trim().length < 2 || isLoading) return;
     sendMessage();
     setMessage('');
   };
@@ -56,6 +56,7 @@ const Footer = () => {
               onClick={handleMicClick}
               className={`${listening ? 'text-blue-600' : 'text-neutral-300'}`}
               size={24}
+              aria-label="ENviar mensagem por voz"
             />
           )}
           <Input.content
@@ -67,7 +68,8 @@ const Footer = () => {
           <ButtonIcon
             icon={FaCircleArrowUp}
             className="text-zinc-400 disabled:text-zinc-600"
-            disabled={message.length < 3 || isLoading}
+            disabled={message.length < 2 || isLoading}
+            size={24}
             aria-label="Enviar mensagem"
           />
         </Input.root>
