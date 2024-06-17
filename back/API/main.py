@@ -4,7 +4,9 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from gtts import gTTS
 from googletrans import Translator
-import speech_recognition as sr
+import pandas as pd
+import openpyxl
+import os
 
 app = FastAPI()
 
@@ -31,7 +33,42 @@ class TranslateRequestText(BaseModel):
     text: str
 
 
-def coletarDadosDeTexto(language1, language2, texto):
+def coletarDados(language1, language2, text_enviado, text_traduzido):
+    """
+    Função responsável por coletar os dados significativos.
+    """
+    try:
+        # Define o caminho do arquivo
+        file_path = 'dados/coletaDeDados.xlsx'
+
+        # Verifica se o arquivo e diretório existem, caso contrário, cria-os
+        if not os.path.exists('dados'):
+            os.makedirs('dados')
+
+        if os.path.exists(file_path):
+            df = pd.read_excel(file_path)
+        else:
+            df = pd.DataFrame(columns=['Idioma de fala', 'Idioma de Tradução', 'Texto enviado', 'Texto traduzido'])
+
+        # Novo dado
+        new_data = pd.DataFrame([{
+            "Idioma de fala": language1,
+            "Idioma de Tradução": language2,
+            "Texto enviado": text_enviado,
+            "Texto traduzido": text_traduzido
+        }])
+
+        # Adiciona a nova linha ao DataFrame usando pd.concat
+        df = pd.concat([df, new_data], ignore_index=True)
+
+        # Salva o DataFrame atualizado de volta no arquivo Excel
+        df.to_excel(file_path, index=False)
+
+    except Exception as error:
+        print(f"Erro: {error}")
+
+
+def traduzirTexto(language1, language2, texto):
     """
     Função responsável por coletar os dados do usuário por via de Texto e gravar um audio em uma pasta para uso do front-end.
     """
@@ -46,34 +83,10 @@ def coletarDadosDeTexto(language1, language2, texto):
             lang=language2,
         )
 
-        audio.save("audiotranslatedText.mp3")
-        return translatedText.text
+        # Processo de coleta de dados
+        coletarDados(language1, language2, texto, translatedText.text)
 
-    except Exception as e:
-        return f"Erro: {e}"
-
-
-def coletarDadosDeAudio(language1, language2, Audio):
-    """
-    Função resposável por coletar o audio do front-end e transformar em texto e traduzir para a linguagem desejada por via de audio.
-    """
-    try:
-        r = sr.Recognizer()
-
-        textoColetado = r.recognize_google(audio_data=Audio,
-                                           language=language1)
-
-        translator = Translator()
-        translatedText = translator.translate(textoColetado,
-                                              src=language1[:2],
-                                              dest=language2[:2])
-
-        audio = gTTS(
-            text=translatedText.text,
-            lang=language2,
-        )
-
-        audio.save("front\\src\\assets\\audio\\audiotranslatedText.mp3")
+        audio.save("audio/audiotranslatedText.mp3")
         return translatedText.text
 
     except Exception as e:
@@ -85,9 +98,8 @@ async def post_translate_text(request_data: TranslateRequestText):
     """
     API responsável por realizar a tradução do texto, além de criar um audio com base na tradução.
     """
-    translated_text = coletarDadosDeTexto(request_data.prefer,
-                                          request_data.response,
-                                          request_data.text)
+    translated_text = traduzirTexto(request_data.prefer, request_data.response,
+                                    request_data.text)
 
     return {"translated_text": translated_text}
 
@@ -97,7 +109,7 @@ async def get_translate_audio():
     """
     API resposável por coletar o audio gerado e encaminhar para o front-end.
     """
-    file_path = "audiotranslatedText.mp3"
+    file_path = "audio/audiotranslatedText.mp3"
 
     return FileResponse(file_path,
                         media_type='audio/mpeg',
