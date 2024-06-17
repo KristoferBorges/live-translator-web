@@ -48,7 +48,7 @@ const Footer = () => {
     setMessage('');
   };
   return (
-    <footer className="px-3 md:px-3 py-2 max-w-3xl m-auto w-full flex justify-center">
+    <footer className="w-full max-w-3xl m-auto px-2 flex justify-center">
       <form onSubmit={handleSubmit} className="flex-1">
         <Input.root>
           {recognition && (
