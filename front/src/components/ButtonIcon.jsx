@@ -1,7 +1,7 @@
-const ButtonIcon = ({ icon: Icon, ...rest }) => {
+const ButtonIcon = ({ icon: Icon, size, ...rest }) => {
   return (
     <button {...rest}>
-      <Icon size={24} />
+      <Icon size={size} />
     </button>
   );
 };
