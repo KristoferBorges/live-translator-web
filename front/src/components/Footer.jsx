@@ -4,6 +4,7 @@ import { Input } from './Input';
 import ButtonIcon from './ButtonIcon';
 import { FaCircleArrowUp } from 'react-icons/fa6';
 import { FaMicrophone } from 'react-icons/fa';
+import LanguageSelect from './LanguageSelect';
 
 const Footer = () => {
   const { message, setMessage, isLoading, sendMessage, langChoice } =
@@ -15,7 +16,7 @@ const Footer = () => {
     window.SpeechRecognition || window.webkitSpeechRecognition;
   if (SpeechRecognition) {
     recognition = new SpeechRecognition();
-    recognition.lang = langChoice.prefer;
+    recognition.lang = langChoice.prefer.lang;
   }
 
   const handleMicClick = () => {
@@ -48,7 +49,10 @@ const Footer = () => {
     setMessage('');
   };
   return (
-    <footer className="w-full max-w-3xl m-auto px-2 flex justify-center">
+    <footer className="w-full max-w-3xl m-auto px-2 py-2 flex flex-col justify-center bg-neutral-900 rounded-md rounded-b-3xl">
+      {/* seleção de linguagem */}
+      <LanguageSelect />
+      {/* campo de menssagem */}
       <form onSubmit={handleSubmit} className="flex-1">
         <Input.root>
           {recognition && (

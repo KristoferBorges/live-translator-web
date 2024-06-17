@@ -8,7 +8,9 @@ const useOutsideClick = (ref, setState) => {
       }
     };
 
-    document.addEventListener('mousedown', handleClick);
+    setTimeout(() => {
+      document.addEventListener('mousedown', handleClick);
+    }, 0);
 
     return () => document.removeEventListener('mousedown', handleClick);
   }, []);

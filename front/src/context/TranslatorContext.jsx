@@ -1,17 +1,21 @@
-import { createContext, useState, useEffect, useMemo } from 'react';
+import { createContext, useState, useMemo } from 'react';
 import { AUDIO_GET, TEXT_POST } from '../services/api';
 import axios from 'axios';
 
 const TranslatorContext = createContext();
 
 const TranslatorProvider = ({ children }) => {
-  const [menu, setMenu] = useState(false);
-  const [menuMobile, setMenuMobile] = useState(false);
   const [message, setMessage] = useState('');
   const [chats, setChats] = useState([]);
   const [langChoice, setLangChoice] = useState({
-    prefer: 'pt-br',
-    response: 'en-us',
+    prefer: {
+      lang: 'pt-br',
+      name: 'Português',
+    },
+    response: {
+      lang: 'en-us',
+      name: 'Ingles',
+    },
   });
   const [isLoading, setIsLoading] = useState(false);
   const [audioUrl, setAudioUrl] = useState(null);
@@ -56,8 +60,8 @@ const TranslatorProvider = ({ children }) => {
       setIsLoading(true);
 
       const { url, content } = TEXT_POST({
-        prefer: langChoice.prefer,
-        response: langChoice.response,
+        prefer: langChoice.prefer.lang,
+        response: langChoice.response.lang,
         text: transcript ? transcript : message,
       });
 
@@ -85,24 +89,9 @@ const TranslatorProvider = ({ children }) => {
     setAudioUrl(urlAudio);
   };
 
-  useEffect(() => {
-    window.addEventListener('resize', ({ target }) => {
-      if (target.innerWidth > 768) {
-        setMenuMobile(false);
-      }
-      if (target.innerWidth < 768) {
-        setMenu(false);
-      }
-    });
-  }, []);
-
   return (
     <TranslatorContext.Provider
       value={{
-        menu,
-        setMenu,
-        menuMobile,
-        setMenuMobile,
         message,
         setMessage,
         langChoice,
