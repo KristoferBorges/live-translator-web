@@ -65,7 +65,7 @@ const LanguageSelect = () => {
               {LanguagesAvailable?.map((language) => (
                 <span
                   key={language + Math.random()}
-                  className="bg-zinc-800 p-2 rounded-md cursor-pointer hover:bg-zinc-700 data-[select=true]:bg-zinc-600"
+                  className="bg-zinc-800 p-2 rounded-md cursor-pointer hover:bg-zinc-700 data-[select=true]:bg-zinc-600 duration-200"
                   data-select={language.lang === langChoice.prefer.lang}
                   onClick={() => handleLangPrefer(language.lang, language.name)}
                 >
@@ -87,7 +87,7 @@ const LanguageSelect = () => {
               {LanguagesAvailable?.map((language) => (
                 <span
                   key={language + Math.random()}
-                  className="bg-zinc-800 p-2 rounded-md cursor-pointer hover:bg-zinc-700 data-[select=true]:bg-zinc-600"
+                  className="bg-zinc-800 p-2 rounded-md cursor-pointer hover:bg-zinc-700 data-[select=true]:bg-zinc-600 duration-200"
                   data-select={language.lang === langChoice.response.lang}
                   onClick={() =>
                     handleLangResponse(language.lang, language.name)
