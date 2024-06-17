@@ -60,7 +60,7 @@ const LanguageSelect = () => {
           aria-hidden={!openSelect}
         >
           <div>
-            <h3 className="mb-2">Idioma de fala:</h3>
+            <h2 className="mb-2">Idioma de fala:</h2>
             <div className="flex flex-wrap gap-2">
               {LanguagesAvailable?.map((language) => (
                 <span
@@ -82,7 +82,7 @@ const LanguageSelect = () => {
             aria-label="inverter linguagens"
           />
           <div>
-            <h3 className="mb-2">Idioma de tradução:</h3>
+            <h2 className="mb-2">Idioma de tradução:</h2>
             <div className="flex flex-wrap gap-2">
               {LanguagesAvailable?.map((language) => (
                 <span
@@ -103,13 +103,13 @@ const LanguageSelect = () => {
       {/* END language select menu */}
 
       {/* Languages*/}
-      <div
-        className="flex items-center justify-between relative z-0 hover:bg-neutral-800 rounded-md p-2  cursor-pointer"
+      <button
+        className="flex items-center justify-between w-full relative z-0 hover:bg-neutral-800 rounded-md p-2 cursor-pointer"
         onClick={handleOpenSelect}
         aria-expanded={openSelect}
       >
         <div>
-          <h3 className="font-bold text-sm md:text-base">Idioma de fala:</h3>
+          <h2 className="font-bold text-sm md:text-base">Idioma de fala:</h2>
           <span className="text-xs md:text-sm">{langChoice.prefer.name}</span>
         </div>
         <IoIosArrowUp
@@ -118,12 +118,12 @@ const LanguageSelect = () => {
           data-rotate={openSelect}
         />
         <div>
-          <h3 className="font-bold text-sm md:text-base">
+          <h2 className="font-bold text-sm md:text-base">
             Idioma de tradução:
-          </h3>
+          </h2>
           <span className="text-xs md:text-sm">{langChoice.response.name}</span>
         </div>
-      </div>
+      </button>
     </article>
   );
 };
