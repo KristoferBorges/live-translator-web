@@ -1,11 +1,5 @@
-import {
-  useEffect,
-  useRef,
-  useContext,
-  Fragment,
-  useState,
-  useCallback,
-} from 'react';
+import { useEffect, useRef, useContext, Fragment, useState } from 'react';
+import ButtonIcon from './ButtonIcon';
 import { TranslatorContext } from '../context/TranslatorContext';
 import BotSVG from '../assets/bot.svg?react';
 import { FaPlay, FaPause } from 'react-icons/fa';
@@ -55,13 +49,12 @@ const ChatTranslate = () => {
                 </div>
                 <p className="leading-8">{chat.bot}</p>
                 {index === chats.length - 1 && (
-                  <span className="p-2 bg-neutral-700 rounded-full cursor-pointer hover:bg-neutral-600">
-                    {isPlaying ? (
-                      <FaPause size={10} onClick={handlePause} />
-                    ) : (
-                      <FaPlay size={10} onClick={handlePlay} />
-                    )}
-                  </span>
+                  <ButtonIcon
+                    className="p-2 bg-neutral-700 rounded-full cursor-pointer hover:bg-neutral-600"
+                    icon={isPlaying ? FaPause : FaPlay}
+                    size={10}
+                    onClick={isPlaying ? handlePause : handlePlay}
+                  />
                 )}
               </div>
             )}
