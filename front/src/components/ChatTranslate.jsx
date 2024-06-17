@@ -48,7 +48,7 @@ const ChatTranslate = () => {
                   <BotSVG className="size-7" />
                 </div>
                 <p className="leading-8">{chat.bot}</p>
-                {index === chats.length - 1 && (
+                {index === chats.length - 1 && audioUrl && (
                   <ButtonIcon
                     className="p-2 bg-neutral-700 rounded-full cursor-pointer hover:bg-neutral-600"
                     icon={isPlaying ? FaPause : FaPlay}
