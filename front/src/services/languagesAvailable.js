@@ -9,11 +9,11 @@ const LanguagesAvailable = [
   },
   {
     lang: 'zh-CN',
-    name: 'Chinês (Simplificado)',
+    name: 'Chinês',
   },
   {
     lang: 'zh-TW',
-    name: 'Chinês (Tradicional)',
+    name: 'Taiwan',
   },
   {
     lang: 'hi',
