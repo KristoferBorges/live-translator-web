@@ -9,6 +9,7 @@ import openpyxl
 import os
 from datetime import datetime
 import user_agents
+import pytz
 
 app = FastAPI()
 
@@ -71,7 +72,8 @@ def coletarDados(language1, language2, text_enviado, text_traduzido,
         tablet = user_agent.is_tablet
 
         # Obtém o horário atual
-        horario_acessado = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
+        timezone = pytz.timezone('America/Sao_Paulo')
+        horario_acessado = datetime.now(timezone).strftime('%d-%m-%Y %H:%M:%S')
 
         # Formatação simples
         text_enviado = text_enviado.capitalize()
