@@ -34,6 +34,7 @@ const TranslatorProvider = ({ children }) => {
       const { url: urlAudio, options } = AUDIO_GET();
 
       setIsLoading(true);
+      setAudioUrl(null);
       setChats((prev) => [...prev, { me: menssageText }]);
 
       const [textResponse, audioResponse] = await Promise.all([
