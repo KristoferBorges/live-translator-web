@@ -1,4 +1,4 @@
-import { createContext, useState, useMemo } from 'react';
+import { createContext, useState, useMemo, useEffect } from 'react';
 import { AUDIO_GET, TEXT_POST } from '../services/api';
 import axios from 'axios';
 
@@ -43,16 +43,26 @@ const TranslatorProvider = ({ children }) => {
       const audioBlob = await audioResponse.blob();
 
       const { translated_text } = textResponse.data;
-      const URLBlobAudio = URL.createObjectURL(audioBlob);
-      setAudioUrl(URLBlobAudio);
+      const URLblobAudio = URL.createObjectURL(audioBlob);
+      setAudioUrl(URLblobAudio);
 
       setChats((prev) => [...prev, { bot: translated_text }]);
+      //set langChoice to local Storage for persistence data
+      localStorage.setItem('Languages', JSON.stringify(langChoice));
     } catch (err) {
       setChats((prev) => [...prev, { bot: `${err}` }]);
     } finally {
       setIsLoading(false);
     }
   };
+
+  //get local storage and put on langChoice
+  useEffect(() => {
+    const langStorage = localStorage.getItem('Languages');
+    if (langStorage) {
+      setLangChoice(JSON.parse(langStorage));
+    }
+  }, []);
 
   return (
     <TranslatorContext.Provider
