@@ -11,5 +11,10 @@ export const TEXT_POST = (body) => {
 export const AUDIO_GET = () => {
   return {
     url: API_URL + 'get-audio',
+    options: {
+      headers: {
+        'Content-Type': 'audio/mpeg',
+      },
+    },
   };
 };
