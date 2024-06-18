@@ -9,6 +9,7 @@ import openpyxl
 import os
 from datetime import datetime
 import user_agents
+import pytz
 
 app = FastAPI()
 
@@ -21,7 +22,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 
@@ -52,10 +53,15 @@ def coletarDados(language1, language2, text_enviado, text_traduzido,
             df = pd.read_excel(file_path)
         else:
             df = pd.DataFrame(columns=[
-                'Idioma de fala', 'Idioma de Tradução', 'Texto enviado',
-                'Texto traduzido', 'Navegador', 'Dispositivo móvel', 
-                'Computador', 'Tablet', 'Horário acessado',
-
+                'Idioma de fala',
+                'Idioma de Tradução',
+                'Texto enviado',
+                'Texto traduzido',
+                'Navegador',
+                'Dispositivo móvel',
+                'Computador',
+                'Tablet',
+                'Horário acessado',
             ])
 
         # Obtém informações do agente do usuário
@@ -66,7 +72,8 @@ def coletarDados(language1, language2, text_enviado, text_traduzido,
         tablet = user_agent.is_tablet
 
         # Obtém o horário atual
-        horario_acessado = datetime.now().strftime('%d-%m-%Y %H:%M:%S')
+        timezone = pytz.timezone('America/Sao_Paulo')
+        horario_acessado = datetime.now(timezone).strftime('%d-%m-%Y %H:%M:%S')
 
         # Formatação simples
         text_enviado = text_enviado.capitalize()
@@ -100,12 +107,16 @@ def traduzirTexto(language1, language2, texto, user_agent_str):
     Função responsável por coletar os dados do usuário por via de Texto e gravar um audio em uma pasta para uso do front-end.
     """
     try:
-        translator = Translator()
-        translatedText = translator.translate(texto,
-                                              src=language1[:2],
-                                              dest=language2[:2])
+        # Verificando Exceção da China
+        if language1 != 'zh-CN' or language2 != 'zh-TW':
+            language1 = language1[:2]
+        if language2 != 'zh-CN' or language2 != 'zh-TW':
+            language2 = language2[:2]
 
-        audio = gTTS(text=translatedText.text, lang=language2[:2])
+        translator = Translator()
+        translatedText = translator.translate(texto, src=language1, dest=language2)
+
+        audio = gTTS(text=translatedText.text, lang=language2)
 
         # Processo de coleta de dados
         coletarDados(language1, language2, texto, translatedText.text,
@@ -115,7 +126,7 @@ def traduzirTexto(language1, language2, texto, user_agent_str):
         if not os.path.exists('audio'):
             os.makedirs('audio')
         audio.save(audio_path)
-        
+
         return translatedText.text
 
     except Exception as e:

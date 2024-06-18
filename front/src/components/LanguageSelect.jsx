@@ -1,14 +1,42 @@
 import { useState, useContext, useRef } from 'react';
 import { TranslatorContext } from '../context/TranslatorContext';
 import useOutsideClick from '../hooks/useOutsideClick';
+import { IoIosArrowUp } from 'react-icons/io';
 import { FaExchangeAlt } from 'react-icons/fa';
 import ButtonIcon from './ButtonIcon';
-import { IoIosArrowUp } from 'react-icons/io';
+import LanguagesAvailable from '../services/languagesAvailable';
+import { Input } from './Input';
 
 const LanguageSelect = () => {
-  const { LanguagesAvailable, langChoice, setLangChoice } =
-    useContext(TranslatorContext);
+  const { langChoice, setLangChoice } = useContext(TranslatorContext);
   const [openSelect, setOpenSelect] = useState(false);
+  const [searchLangPrefer, setSearchLangPrefer] = useState('');
+  const [searchLangResponse, setSearchLangResponse] = useState('');
+
+  const normalizeString = (str) => {
+    return str
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase();
+  };
+
+  const FilteredPreferLanguages = LanguagesAvailable.filter(
+    (language) =>
+      normalizeString(language.name).includes(
+        normalizeString(searchLangPrefer)
+      ) ||
+      normalizeString(language.lang).includes(normalizeString(searchLangPrefer))
+  );
+
+  const FilteredResponseLanguages = LanguagesAvailable.filter(
+    (language) =>
+      normalizeString(language.name).includes(
+        normalizeString(searchLangResponse)
+      ) ||
+      normalizeString(language.lang).includes(
+        normalizeString(searchLangResponse)
+      )
+  );
 
   const selectRef = useRef();
   useOutsideClick(selectRef, setOpenSelect);
@@ -17,21 +45,23 @@ const LanguageSelect = () => {
     setOpenSelect(!openSelect);
   };
 
-  const handleLangPrefer = (abreviation, language) => {
+  const handleLangPrefer = (abbreviation, language) => {
+    setSearchLangPrefer('');
     setLangChoice({
       ...langChoice,
       prefer: {
-        lang: abreviation,
+        lang: abbreviation,
         name: language,
       },
     });
   };
 
-  const handleLangResponse = (abreviation, language) => {
+  const handleLangResponse = (abbreviation, language) => {
+    setSearchLangResponse('');
     setLangChoice({
       ...langChoice,
       response: {
-        lang: abreviation,
+        lang: abbreviation,
         name: language,
       },
     });
@@ -51,6 +81,7 @@ const LanguageSelect = () => {
       },
     });
   };
+
   return (
     <article className="flex-1 justify-between relative mb-2" ref={selectRef}>
       {/* language select menu */}
@@ -60,41 +91,67 @@ const LanguageSelect = () => {
           aria-hidden={!openSelect}
         >
           <div>
-            <h2 className="mb-2">Idioma de fala:</h2>
-            <div className="flex flex-wrap gap-2">
-              {LanguagesAvailable?.map((language) => (
-                <span
-                  key={language + Math.random()}
-                  className="bg-zinc-800 p-2 rounded-md cursor-pointer hover:bg-zinc-700 data-[select=true]:bg-zinc-600 duration-200"
+            <h3 className="mb-2">Idioma de fala:</h3>
+            {/* input  */}
+            <div className="h-10 my-4 border-b-2 border-zinc-600 pb-2">
+              <input
+                type="text"
+                className="px-2 rounded-md bg-zinc-800 w-full h-full focus:outline-none "
+                placeholder="Pesquisar idioma de fala"
+                value={searchLangPrefer}
+                onChange={({ target }) => setSearchLangPrefer(target.value)}
+              />
+            </div>
+            {/* Languages container */}
+            <div className="flex flex-wrap gap-2 max-h-24 scroll-custom overflow-y-auto">
+              {FilteredPreferLanguages?.map((language, index) => (
+                <button
+                  key={language + index}
+                  className="shrink-0 basis-24 text-center text-sm bg-zinc-800 p-2 rounded-md cursor-pointer hover:bg-zinc-700 data-[select=true]:bg-zinc-600 duration-200 md:text-base md:basis-32"
                   data-select={language.lang === langChoice.prefer.lang}
                   onClick={() => handleLangPrefer(language.lang, language.name)}
+                  aria-label={`selecionar linguagem ${language.name}`}
                 >
                   {language.name}
-                </span>
+                </button>
               ))}
             </div>
           </div>
+          {/* Button to change between two languages */}
           <ButtonIcon
             icon={FaExchangeAlt}
-            className="bg-zinc-400 text-zinc-900 rounded-md py-2 px-7 self-center uppercase font-medium my-4"
+            className="bg-zinc-400 text-zinc-900 rounded-md py-2 px-7 self-center uppercase font-medium my-1 md:my-4"
             size={20}
             onClick={handleInvertLanguage}
             aria-label="inverter linguagens"
           />
           <div>
-            <h2 className="mb-2">Idioma de tradução:</h2>
-            <div className="flex flex-wrap gap-2">
-              {LanguagesAvailable?.map((language) => (
-                <span
-                  key={language + Math.random()}
-                  className="bg-zinc-800 p-2 rounded-md cursor-pointer hover:bg-zinc-700 data-[select=true]:bg-zinc-600 duration-200"
+            <h3 className="mb-2">Idioma de tradução:</h3>
+            {/* Input  */}
+            <div className="h-10 my-4 border-b-2 border-zinc-600 pb-2">
+              <input
+                type="text"
+                className="px-2 rounded-md bg-zinc-800 w-full h-full focus:outline-none"
+                placeholder="Pesquisar idioma de tradução"
+                value={searchLangResponse}
+                onChange={({ target }) => setSearchLangResponse(target.value)}
+              />
+            </div>
+
+            {/* Languages container */}
+            <div className="flex flex-wrap gap-2 max-h-24 scroll-custom overflow-y-auto">
+              {FilteredResponseLanguages?.map((language, index) => (
+                <button
+                  key={language + index}
+                  className="shrink-0 basis-24  text-center text-sm bg-zinc-800 p-2 rounded-md cursor-pointer hover:bg-zinc-700 data-[select=true]:bg-zinc-600 duration-200 md:text-base md:basis-32"
                   data-select={language.lang === langChoice.response.lang}
                   onClick={() =>
                     handleLangResponse(language.lang, language.name)
                   }
+                  aria-label={`selecionar linguagem ${language.name}`}
                 >
                   {language.name}
-                </span>
+                </button>
               ))}
             </div>
           </div>
@@ -102,14 +159,14 @@ const LanguageSelect = () => {
       )}
       {/* END language select menu */}
 
-      {/* Languages*/}
-      <button
-        className="flex items-center justify-between w-full relative z-0 hover:bg-neutral-800 rounded-md p-2 cursor-pointer"
+      {/* Languages Display */}
+      <div
+        className="flex items-center justify-between relative z-0 hover:bg-neutral-800 rounded-md p-2  cursor-pointer"
         onClick={handleOpenSelect}
         aria-expanded={openSelect}
       >
         <div>
-          <h2 className="font-bold text-sm md:text-base">Idioma de fala:</h2>
+          <h3 className="font-bold text-sm md:text-base">Idioma de fala:</h3>
           <span className="text-xs md:text-sm">{langChoice.prefer.name}</span>
         </div>
         <IoIosArrowUp
@@ -118,12 +175,12 @@ const LanguageSelect = () => {
           data-rotate={openSelect}
         />
         <div>
-          <h2 className="font-bold text-sm md:text-base">
+          <h3 className="font-bold text-sm md:text-base">
             Idioma de tradução:
-          </h2>
+          </h3>
           <span className="text-xs md:text-sm">{langChoice.response.name}</span>
         </div>
-      </button>
+      </div>
     </article>
   );
 };
