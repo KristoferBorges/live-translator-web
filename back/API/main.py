@@ -21,7 +21,7 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 
@@ -52,10 +52,15 @@ def coletarDados(language1, language2, text_enviado, text_traduzido,
             df = pd.read_excel(file_path)
         else:
             df = pd.DataFrame(columns=[
-                'Idioma de fala', 'Idioma de Tradução', 'Texto enviado',
-                'Texto traduzido', 'Navegador', 'Dispositivo móvel', 
-                'Computador', 'Tablet', 'Horário acessado',
-
+                'Idioma de fala',
+                'Idioma de Tradução',
+                'Texto enviado',
+                'Texto traduzido',
+                'Navegador',
+                'Dispositivo móvel',
+                'Computador',
+                'Tablet',
+                'Horário acessado',
             ])
 
         # Obtém informações do agente do usuário
@@ -115,7 +120,7 @@ def traduzirTexto(language1, language2, texto, user_agent_str):
         if not os.path.exists('audio'):
             os.makedirs('audio')
         audio.save(audio_path)
-        
+
         return translatedText.text
 
     except Exception as e:
