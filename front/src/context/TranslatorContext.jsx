@@ -9,11 +9,11 @@ const TranslatorProvider = ({ children }) => {
   const [chats, setChats] = useState([]);
   const [langChoice, setLangChoice] = useState({
     prefer: {
-      lang: 'pt-br',
+      lang: 'pt',
       name: 'Português',
     },
     response: {
-      lang: 'en-us',
+      lang: 'en',
       name: 'Inglês',
     },
   });
@@ -44,8 +44,8 @@ const TranslatorProvider = ({ children }) => {
 
       const { translated_text } = textResponse.data;
       const URLblobAudio = URL.createObjectURL(audioBlob);
-      setAudioUrl(URLblobAudio);
 
+      setAudioUrl(URLblobAudio);
       setChats((prev) => [...prev, { bot: translated_text }]);
       //set langChoice to local Storage for persistence data
       localStorage.setItem('Languages', JSON.stringify(langChoice));
