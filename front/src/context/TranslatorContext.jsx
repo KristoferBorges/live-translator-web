@@ -30,6 +30,7 @@ const TranslatorProvider = ({ children }) => {
         prefer: langChoice.prefer.lang,
         response: langChoice.response.lang,
         text: menssageText,
+        id: Math.floor(Math.random() * 10_000),
       });
       const { url: urlAudio, options } = AUDIO_GET();
 
