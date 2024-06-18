@@ -61,9 +61,8 @@ const ChatTranslate = () => {
           </Fragment>
         ))}
       </div>
-      {audioUrl && (
-        <audio src={audioUrl} ref={audioRef} onEnded={handlePause}></audio>
-      )}
+
+      <audio src={audioUrl} ref={audioRef} onEnded={handlePause}></audio>
     </main>
   );
 };

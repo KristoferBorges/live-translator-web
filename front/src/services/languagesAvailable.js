@@ -1,63 +1,67 @@
 const LanguagesAvailable = [
   {
-    lang: 'pt-br',
-    name: 'Português',
-  },
-  {
-    lang: 'en-us',
+    lang: 'en',
     name: 'Inglês',
   },
   {
-    lang: 'es-ES',
+    lang: 'es',
     name: 'Espanhol',
   },
   {
-    lang: 'ja',
-    name: 'Japonês',
-  },
-  {
-    lang: 'ko',
-    name: 'Coreano',
-  },
-  {
-    lang: 'ar',
-    name: 'Árabe',
-  },
-  {
-    lang: 'ru',
-    name: 'Russo',
-  },
-  {
-    lang: 'de',
-    name: 'Alemão',
-  },
-  {
-    lang: 'fr',
-    name: 'Francês',
-  },
-  {
-    lang: 'it',
-    name: 'Italiano',
-  },
-  {
     lang: 'zh-CN',
-    name: 'Chinês',
+    name: 'Chinês (Simplificado)',
+  },
+  {
+    lang: 'zh-TW',
+    name: 'Chinês (Tradicional)',
   },
   {
     lang: 'hi',
     name: 'Hindi',
   },
   {
-    lang: 'nl',
-    name: 'Holandês',
+    lang: 'ar',
+    name: 'Árabe',
   },
   {
-    lang: 'pl',
-    name: 'Polonês',
+    lang: 'fr',
+    name: 'Francês',
   },
   {
-    lang: 'sv',
-    name: 'Sueco',
+    lang: 'de',
+    name: 'Alemão',
+  },
+  {
+    lang: 'ja',
+    name: 'Japonês',
+  },
+  {
+    lang: 'ru',
+    name: 'Russo',
+  },
+  {
+    lang: 'pt',
+    name: 'Português',
+  },
+  {
+    lang: 'it',
+    name: 'Italiano',
+  },
+  {
+    lang: 'ko',
+    name: 'Coreano',
+  },
+  {
+    lang: 'vi',
+    name: 'Vietnamita',
+  },
+  {
+    lang: 'fa',
+    name: 'Persa',
+  },
+  {
+    lang: 'ur',
+    name: 'Urdu',
   },
   {
     lang: 'tr',

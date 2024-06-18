@@ -11,14 +11,23 @@ class AnaliseProfunda:
     def __init__(self):
         self.df = pd.read_excel('back/API/dados/coletaDeDados.xlsx') # Alterar quando passar para a WEB
         self.idiomas_map = {
-            'pt-br': 'Português',
             'en-us': 'Inglês',
             'es-ES': 'Espanhol',
+            'zh-cn': 'Chinês (Simplificado)',
+            'zh-tw': 'Chinês (Tradicional)',
+            'hi': 'Hindi',
+            'ar': 'Árabe',
+            'fr': 'Francês',
             'de': 'Alemão',
             'ja': 'Japonês',
-            'ko': 'Coreano',
-            'ar': 'Árabe',
             'ru': 'Russo',
+            'pt-br': 'Português',
+            'it': 'Italiano',
+            'ko': 'Coreano',
+            'vi': 'Vietnamita',
+            'fa': 'Persa',
+            'ur': 'Urdu',
+            'tr': 'Turco',
         }
 
     def acessosPorDispositivo(self):

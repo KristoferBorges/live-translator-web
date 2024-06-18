@@ -108,13 +108,15 @@ def traduzirTexto(language1, language2, texto, user_agent_str):
     """
     try:
         # Verificando Exceção da China
-        if language1 != 'zh-CN' or language2 != 'zh-TW':
+        if language1 != 'zh-CN' and language1 != 'zh-TW':
             language1 = language1[:2]
-        if language2 != 'zh-CN' or language2 != 'zh-TW':
+        if language2 != 'zh-CN' and language2 != 'zh-TW':
             language2 = language2[:2]
 
         translator = Translator()
-        translatedText = translator.translate(texto, src=language1, dest=language2)
+        translatedText = translator.translate(texto,
+                                              src=language1,
+                                              dest=language2)
 
         audio = gTTS(text=translatedText.text, lang=language2)
 
