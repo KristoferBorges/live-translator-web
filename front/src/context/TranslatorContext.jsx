@@ -1,4 +1,4 @@
-import { createContext, useState, useMemo, useEffect } from 'react';
+import { createContext, useState, useEffect } from 'react';
 import { AUDIO_GET, TEXT_POST } from '../services/api';
 import axios from 'axios';
 
@@ -14,7 +14,7 @@ const TranslatorProvider = ({ children }) => {
     },
     response: {
       lang: 'en-us',
-      name: 'Ingles',
+      name: 'Inglês',
     },
   });
   const [isLoading, setIsLoading] = useState(false);

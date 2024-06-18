@@ -107,12 +107,16 @@ def traduzirTexto(language1, language2, texto, user_agent_str):
     Função responsável por coletar os dados do usuário por via de Texto e gravar um audio em uma pasta para uso do front-end.
     """
     try:
-        translator = Translator()
-        translatedText = translator.translate(texto,
-                                              src=language1[:2],
-                                              dest=language2[:2])
+        # Verificando Exceção da China
+        if language1 != 'zh-CN' or language2 != 'zh-TW':
+            language1 = language1[:2]
+        if language2 != 'zh-CN' or language2 != 'zh-TW':
+            language2 = language2[:2]
 
-        audio = gTTS(text=translatedText.text, lang=language2[:2])
+        translator = Translator()
+        translatedText = translator.translate(texto, src=language1, dest=language2)
+
+        audio = gTTS(text=translatedText.text, lang=language2)
 
         # Processo de coleta de dados
         coletarDados(language1, language2, texto, translatedText.text,

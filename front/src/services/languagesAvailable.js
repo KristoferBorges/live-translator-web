@@ -40,7 +40,7 @@ const LanguagesAvailable = [
     name: 'Italiano',
   },
   {
-    lang: 'zh-tw',
+    lang: 'zh-CN',
     name: 'Chinês',
   },
   {
