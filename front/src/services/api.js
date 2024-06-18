@@ -8,9 +8,9 @@ export const TEXT_POST = (body) => {
   };
 };
 
-export const AUDIO_GET = () => {
+export const AUDIO_GET = (id) => {
   return {
-    url: API_URL + 'get-audio',
+    url: API_URL + 'get-audio/' + id,
     options: {
       headers: {
         'Content-Type': 'audio/mpeg',
