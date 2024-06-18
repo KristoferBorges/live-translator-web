@@ -49,7 +49,7 @@ const Footer = () => {
     setMessage('');
   };
   return (
-    <footer className="w-full max-w-3xl m-auto px-2 py-2 flex flex-col justify-center bg-neutral-900 rounded-md rounded-b-3xl">
+    <footer className="w-full max-w-4xl m-auto px-2 py-2 flex flex-col justify-center bg-neutral-900 rounded-md rounded-b-3xl">
       {/* seleção de linguagem */}
       <LanguageSelect />
       {/* campo de menssagem */}
@@ -58,7 +58,9 @@ const Footer = () => {
           {recognition && (
             <FaMicrophone
               onClick={handleMicClick}
-              className={`${listening ? 'text-blue-600' : 'text-neutral-300'}`}
+              className={`${
+                listening ? 'text-blue-600' : 'text-neutral-300'
+              } cursor-pointer`}
               size={24}
               aria-label="ENviar mensagem por voz"
             />
@@ -73,7 +75,7 @@ const Footer = () => {
             icon={FaCircleArrowUp}
             className="text-zinc-400 disabled:text-zinc-600"
             disabled={message.length < 2 || isLoading}
-            size={24}
+            size={26}
             aria-label="Enviar mensagem"
           />
         </Input.root>

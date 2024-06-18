@@ -27,7 +27,7 @@ const ChatTranslate = () => {
 
   return (
     <main className="px-3 overflow-y-auto scroll-custom flex-1" ref={chatRef}>
-      <div className="w-full min-h-full flex-1 max-w-3xl m-auto flex flex-col gap-2 md:px-3 justify-end">
+      <div className="w-full min-h-full flex-1 max-w-4xl m-auto flex flex-col gap-2 md:px-3 justify-end">
         {chats?.map((chat, index) => (
           <Fragment key={index}>
             {chat.me && (
