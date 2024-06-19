@@ -3,6 +3,7 @@ import ButtonIcon from './ButtonIcon';
 import { TranslatorContext } from '../context/TranslatorContext';
 import BotSVG from '../assets/bot.svg?react';
 import { FaPlay, FaPause } from 'react-icons/fa';
+import Tooltip from './Tolltip';
 
 const ChatTranslate = () => {
   const { chats, audioUrl } = useContext(TranslatorContext);
@@ -49,12 +50,14 @@ const ChatTranslate = () => {
                 </div>
                 <p className="leading-8">{chat.bot}</p>
                 {index === chats.length - 1 && audioUrl && (
-                  <ButtonIcon
-                    className="p-2 bg-neutral-700 rounded-full cursor-pointer hover:bg-neutral-600"
-                    icon={isPlaying ? FaPause : FaPlay}
-                    size={10}
-                    onClick={isPlaying ? handlePause : handlePlay}
-                  />
+                  <Tooltip content="Tocar audio">
+                    <ButtonIcon
+                      className="p-2 bg-neutral-700 rounded-full cursor-pointer hover:bg-neutral-600"
+                      icon={isPlaying ? FaPause : FaPlay}
+                      size={10}
+                      onClick={isPlaying ? handlePause : handlePlay}
+                    />
+                  </Tooltip>
                 )}
               </div>
             )}
