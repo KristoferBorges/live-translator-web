@@ -10,13 +10,12 @@ import os
 from datetime import datetime
 import user_agents
 import pytz
+import asyncio
 
 app = FastAPI()
 
 # Configure CORS
-origins = [
-    "*",
-]
+origins = ["*"]
 
 app.add_middleware(
     CORSMiddleware,
@@ -28,136 +27,155 @@ app.add_middleware(
 
 
 class TranslateRequestText(BaseModel):
-    """
-    Base modelo para requisição de texto para tradução
-    """
     prefer: str
     response: str
     text: str
+    id: int
 
 
-def coletarDados(language1, language2, text_enviado, text_traduzido,
-                 user_agent_str):
-    """
-    Função responsável por coletar os dados significativos.
-    """
-    try:
-        # Define o caminho do arquivo
-        file_path = 'dados/coletaDeDados.xlsx'
+class ModeTranslate:
 
-        # Verifica se o arquivo e diretório existem, caso contrário, cria-os
-        if not os.path.exists('dados'):
-            os.makedirs('dados')
+    def __init__(self):
+        self.audio_dir = 'audio'
+        if not os.path.exists(self.audio_dir):
+            os.makedirs(self.audio_dir)
+        self.file_path = os.path.join(self.audio_dir,
+                                      'audiotranslatedText.mp3')
 
-        if os.path.exists(file_path):
-            df = pd.read_excel(file_path)
-        else:
-            df = pd.DataFrame(columns=[
-                'Idioma de fala',
-                'Idioma de Tradução',
-                'Texto enviado',
-                'Texto traduzido',
-                'Navegador',
-                'Dispositivo móvel',
-                'Computador',
-                'Tablet',
-                'Horário acessado',
-            ])
+    def coletarDados(self, language1, language2, text_enviado, text_traduzido,
+                     user_agent_str):
+        try:
+            file_path = 'dados/coletaDeDados.xlsx'
+            if not os.path.exists('dados'):
+                os.makedirs('dados')
 
-        # Obtém informações do agente do usuário
-        user_agent = user_agents.parse(user_agent_str)
-        navegador = user_agent.browser.family
-        mobile = user_agent.is_mobile
-        computador = user_agent.is_pc
-        tablet = user_agent.is_tablet
+            if os.path.exists(file_path):
+                df = pd.read_excel(file_path)
+            else:
+                df = pd.DataFrame(columns=[
+                    'Idioma de fala',
+                    'Idioma de Tradução',
+                    'Texto enviado',
+                    'Texto traduzido',
+                    'Navegador',
+                    'Dispositivo móvel',
+                    'Computador',
+                    'Tablet',
+                    'Horário acessado',
+                ])
 
-        # Obtém o horário atual
-        timezone = pytz.timezone('America/Sao_Paulo')
-        horario_acessado = datetime.now(timezone).strftime('%d-%m-%Y %H:%M:%S')
+            user_agent = user_agents.parse(user_agent_str)
+            navegador = user_agent.browser.family
+            mobile = user_agent.is_mobile
+            computador = user_agent.is_pc
+            tablet = user_agent.is_tablet
 
-        # Formatação simples
-        text_enviado = text_enviado.capitalize()
-        text_traduzido = text_traduzido.capitalize()
+            timezone = pytz.timezone('America/Sao_Paulo')
+            horario_acessado = datetime.now(timezone).strftime(
+                '%d-%m-%Y %H:%M:%S')
 
-        # Novo dado
-        new_data = pd.DataFrame([{
-            "Idioma de fala": language1,
-            "Idioma de Tradução": language2,
-            "Texto enviado": text_enviado,
-            "Texto traduzido": text_traduzido,
-            "Navegador": navegador,
-            "Dispositivo móvel": mobile,
-            "Computador": computador,
-            "Tablet": tablet,
-            "Horário acessado": horario_acessado,
-        }])
+            text_enviado = text_enviado.capitalize()
+            text_traduzido = text_traduzido.capitalize()
 
-        # Adiciona a nova linha ao DataFrame usando pd.concat
-        df = pd.concat([df, new_data], ignore_index=True)
+            new_data = pd.DataFrame([{
+                "Idioma de fala": language1,
+                "Idioma de Tradução": language2,
+                "Texto enviado": text_enviado,
+                "Texto traduzido": text_traduzido,
+                "Navegador": navegador,
+                "Dispositivo móvel": mobile,
+                "Computador": computador,
+                "Tablet": tablet,
+                "Horário acessado": horario_acessado,
+            }])
 
-        # Salva o DataFrame atualizado de volta no arquivo Excel
-        df.to_excel(file_path, index=False)
+            df = pd.concat([df, new_data], ignore_index=True)
+            df.to_excel(file_path, index=False)
+        except Exception as error:
+            print(f"Erro: {error}")
 
-    except Exception as error:
-        print(f"Erro: {error}")
+    def traduzirTexto(self, language1, language2, texto, id, user_agent_str):
+        try:
+            if language1 not in ['zh-CN', 'zh-TW']:
+                language1 = language1[:2]
+            if language2 not in ['zh-CN', 'zh-TW']:
+                language2 = language2[:2]
 
+            translator = Translator()
+            translatedText = translator.translate(texto,
+                                                  src=language1,
+                                                  dest=language2)
 
-def traduzirTexto(language1, language2, texto, user_agent_str):
-    """
-    Função responsável por coletar os dados do usuário por via de Texto e gravar um audio em uma pasta para uso do front-end.
-    """
-    try:
-        # Verificando Exceção da China
-        if language1 != 'zh-CN' and language1 != 'zh-TW':
-            language1 = language1[:2]
-        if language2 != 'zh-CN' and language2 != 'zh-TW':
-            language2 = language2[:2]
+            audio = gTTS(text=translatedText.text, lang=language2)
+            self.coletarDados(language1, language2, texto, translatedText.text,
+                              user_agent_str)
 
-        translator = Translator()
-        translatedText = translator.translate(texto,
-                                              src=language1,
-                                              dest=language2)
+            self.file_path = os.path.join(self.audio_dir,
+                                          f'audiotranslatedText{id}.mp3')
+            audio.save(self.file_path)
 
-        audio = gTTS(text=translatedText.text, lang=language2)
+            return translatedText.text
+        except Exception as e:
+            return f"Erro: {e}"
 
-        # Processo de coleta de dados
-        coletarDados(language1, language2, texto, translatedText.text,
-                     user_agent_str)
+    async def limparAudios(self):
+        """
+        Função Responsavel por excluir arquivos mp3 temporarios
+        """
+        try:
+            await asyncio.sleep(10)
+            for file in os.listdir(self.audio_dir):
+                if file.endswith(".mp3"):
+                    os.remove(os.path.join(self.audio_dir, file))
+        except Exception as e:
+            print(f"Erro: {e}")
 
-        audio_path = "audio/audiotranslatedText.mp3"
-        if not os.path.exists('audio'):
-            os.makedirs('audio')
-        audio.save(audio_path)
+    def __del__(self):
+        """
+        Função Responsavel por excluir arquivos mp3 temporarios
+        """
+        try:
+            for file in os.listdir(self.audio_dir):
+                if file.endswith(".mp3"):
+                    os.remove(os.path.join(self.audio_dir, file))
+        except Exception as e:
+            print(f"Erro: {e}")
+        
 
-        return translatedText.text
-
-    except Exception as e:
-        return f"Erro: {e}"
-
+mode_translate = ModeTranslate()
 
 @app.post("/api/translate/texto")
 async def post_translate_text(request: Request,
                               request_data: TranslateRequestText):
-    """
-    API responsável por realizar a tradução do texto, além de criar um audio com base na tradução.
-    """
-    user_agent_str = request.headers.get('user-agent')
-    translated_text = traduzirTexto(request_data.prefer, request_data.response,
-                                    request_data.text, user_agent_str)
-    return {"translated_text": translated_text.capitalize()}
+    try:
+        user_agent_str = request.headers.get('user-agent')
+        translated_text = mode_translate.traduzirTexto(request_data.prefer,
+                                                    request_data.response,
+                                                    request_data.text,
+                                                    request_data.id,
+                                                    user_agent_str)
+        return {"translated_text": translated_text.capitalize()}
+    
+    except Exception as e:
+            print(f"Erro: {e}")
 
-
-@app.get("/api/translate/get-audio")
-async def get_translate_audio():
-    """
-    API resposável por coletar o audio gerado e encaminhar para o front-end.
-    """
-    file_path = "audio/audiotranslatedText.mp3"
-    return FileResponse(file_path,
-                        media_type='audio/mpeg',
-                        filename='arquivo.mp3')
-
-
+@app.get("/api/translate/get-audio/{id}")
+async def get_translate_audio(id: int):
+    try:
+        file_path = os.path.join('audio', f'audiotranslatedText{id}.mp3')
+        if not os.path.exists(file_path):
+            return {"error": "Audio file not found."}
+        return FileResponse(file_path,
+                            media_type='audio/mpeg',
+                            filename='arquivo.mp3')
+    except Exception as e:
+            print(f"Erro: {e}")
+    
+    finally:
+        asyncio.create_task(mode_translate.limparAudios())
+    
 if __name__ == '__main__':
+    
     import uvicorn
     uvicorn.run(app, host="0.0.0.0")
+    
