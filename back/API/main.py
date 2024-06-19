@@ -35,6 +35,26 @@ class TranslateRequestText(BaseModel):
 
 class ModeTranslate:
 
+    idiomas_map = {
+        'en': 'Inglês',
+        'es': 'Espanhol',
+        'zh-CN': 'Chinês',
+        'zh-TW': 'Taiwan',
+        'hi': 'Hindi',
+        'ar': 'Árabe',
+        'fr': 'Francês',
+        'de': 'Alemão',
+        'ja': 'Japonês',
+        'ru': 'Russo',
+        'pt': 'Português',
+        'it': 'Italiano',
+        'ko': 'Coreano',
+        'vi': 'Vietnamita',
+        'fa': 'Persa',
+        'ur': 'Urdu',
+        'tr': 'Turco',
+    }
+
     def __init__(self):
         self.audio_dir = 'audio'
         if not os.path.exists(self.audio_dir):
@@ -59,6 +79,7 @@ class ModeTranslate:
                     'Texto traduzido',
                     'Navegador',
                     'Dispositivo móvel',
+                    'Sistema Operacional',
                     'Computador',
                     'Tablet',
                     'Horário acessado',
@@ -70,6 +91,9 @@ class ModeTranslate:
             computador = user_agent.is_pc
             tablet = user_agent.is_tablet
 
+            ua = user_agents.parse(user_agent_str)
+            sistema_operacional = ua.os.family
+
             timezone = pytz.timezone('America/Sao_Paulo')
             horario_acessado = datetime.now(timezone).strftime(
                 '%d-%m-%Y %H:%M:%S')
@@ -78,12 +102,13 @@ class ModeTranslate:
             text_traduzido = text_traduzido.capitalize()
 
             new_data = pd.DataFrame([{
-                "Idioma de fala": language1,
-                "Idioma de Tradução": language2,
+                "Idioma de fala": self.idiomas_map.get(language1, language1),
+                "Idioma de Tradução": self.idiomas_map.get(language2, language2),
                 "Texto enviado": text_enviado,
                 "Texto traduzido": text_traduzido,
                 "Navegador": navegador,
                 "Dispositivo móvel": mobile,
+                "Sistema Operacional": sistema_operacional,
                 "Computador": computador,
                 "Tablet": tablet,
                 "Horário acessado": horario_acessado,
