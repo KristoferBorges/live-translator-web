@@ -33,7 +33,7 @@ const ChatTranslate = () => {
           <Fragment key={index}>
             {chat.me && (
               <div
-                className="self-end px-10 py-3 rounded-xl bg-neutral-700 max-w-screen-sm"
+                className="self-end px-4 py-2 rounded-xl bg-neutral-700 max-w-screen-sm"
                 key={chat.me}
               >
                 <p>{chat.me}</p>
