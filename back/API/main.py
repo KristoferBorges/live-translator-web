@@ -148,7 +148,7 @@ class ModeTranslate:
         Função Responsavel por excluir arquivos mp3 temporarios
         """
         try:
-            await asyncio.sleep(10)
+            await asyncio.sleep(100)
             for file in os.listdir(self.audio_dir):
                 if file.endswith(".mp3"):
                     os.remove(os.path.join(self.audio_dir, file))
