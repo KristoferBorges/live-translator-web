@@ -5,6 +5,7 @@ import ButtonIcon from './ButtonIcon';
 import { FaCircleArrowUp } from 'react-icons/fa6';
 import { FaMicrophone } from 'react-icons/fa';
 import LanguageSelect from './LanguageSelect';
+import Tooltip from './Tolltip';
 
 const Footer = () => {
   const { message, setMessage, isLoading, sendMessage, langChoice } =
@@ -56,14 +57,16 @@ const Footer = () => {
       <form onSubmit={handleSubmit} className="flex-1">
         <Input.root>
           {recognition && (
-            <FaMicrophone
-              onClick={handleMicClick}
-              className={`${
-                listening ? 'text-blue-600' : 'text-neutral-300'
-              } cursor-pointer`}
-              size={24}
-              aria-label="ENviar mensagem por voz"
-            />
+            <Tooltip content="Reconhecimento de fala" position="right">
+              <FaMicrophone
+                onClick={handleMicClick}
+                className={`${
+                  listening ? 'text-blue-600' : 'text-neutral-300'
+                } cursor-pointer`}
+                size={24}
+                aria-label="ENviar mensagem por voz"
+              />
+            </Tooltip>
           )}
           <Input.content
             type="text"
@@ -71,13 +74,15 @@ const Footer = () => {
             value={message}
             onChange={({ target }) => setMessage(target.value)}
           />
-          <ButtonIcon
-            icon={FaCircleArrowUp}
-            className="text-zinc-400 disabled:text-zinc-600"
-            disabled={message.length < 2 || isLoading}
-            size={26}
-            aria-label="Enviar mensagem"
-          />
+          <Tooltip content="Enviar mensagem" position="left">
+            <ButtonIcon
+              icon={FaCircleArrowUp}
+              className="text-zinc-400 disabled:text-zinc-600"
+              disabled={message.length < 2 || isLoading}
+              size={26}
+              aria-label="Enviar mensagem"
+            />
+          </Tooltip>
         </Input.root>
       </form>
     </footer>
