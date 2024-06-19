@@ -24,14 +24,16 @@ const TranslatorProvider = ({ children }) => {
     try {
       // get message from microphone or not
       const menssageText = transcript ? transcript : message;
+      const ID = Math.floor(Math.random() * 10_000);
 
       //use function from services/api.js
       const { url, content } = TEXT_POST({
         prefer: langChoice.prefer.lang,
         response: langChoice.response.lang,
         text: menssageText,
+        id: ID,
       });
-      const { url: urlAudio, options } = AUDIO_GET();
+      const { url: urlAudio, options } = AUDIO_GET(ID);
 
       setIsLoading(true);
       setAudioUrl(null);

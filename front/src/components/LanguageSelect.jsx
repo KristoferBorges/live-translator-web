@@ -5,7 +5,7 @@ import { IoIosArrowUp } from 'react-icons/io';
 import { FaExchangeAlt } from 'react-icons/fa';
 import ButtonIcon from './ButtonIcon';
 import LanguagesAvailable from '../services/languagesAvailable';
-import { Input } from './Input';
+import Tooltip from './Tolltip';
 
 const LanguageSelect = () => {
   const { langChoice, setLangChoice } = useContext(TranslatorContext);
@@ -107,7 +107,7 @@ const LanguageSelect = () => {
               {FilteredPreferLanguages?.map((language, index) => (
                 <button
                   key={language + index}
-                  className="shrink-0 basis-24 text-center text-sm bg-zinc-800 p-2 rounded-md cursor-pointer hover:bg-zinc-700 data-[select=true]:bg-zinc-600 duration-200 md:text-base md:basis-32"
+                  className="shrink-0 basis-20 text-center text-sm bg-zinc-800 p-2 rounded-md cursor-pointer hover:bg-zinc-700 data-[select=true]:bg-zinc-600 duration-200 md:text-base sm:basis-28"
                   data-select={language.lang === langChoice.prefer.lang}
                   onClick={() => handleLangPrefer(language.lang, language.name)}
                   aria-label={`selecionar linguagem ${language.name}`}
@@ -118,13 +118,17 @@ const LanguageSelect = () => {
             </div>
           </div>
           {/* Button to change between two languages */}
-          <ButtonIcon
-            icon={FaExchangeAlt}
-            className="bg-zinc-400 text-zinc-900 rounded-md py-2 px-7 self-center uppercase font-medium my-1 md:my-4"
-            size={20}
-            onClick={handleInvertLanguage}
-            aria-label="inverter linguagens"
-          />
+          <div className="self-center">
+            <Tooltip content="Inverter linguagens" position="top">
+              <ButtonIcon
+                icon={FaExchangeAlt}
+                className="bg-zinc-400 text-zinc-900 rounded-md py-2 px-7  uppercase font-medium my-1"
+                size={20}
+                onClick={handleInvertLanguage}
+                aria-label="inverter linguagens"
+              />
+            </Tooltip>
+          </div>
           <div>
             <h3 className="mb-2">Idioma de tradução:</h3>
             {/* Input  */}
@@ -143,7 +147,7 @@ const LanguageSelect = () => {
               {FilteredResponseLanguages?.map((language, index) => (
                 <button
                   key={language + index}
-                  className="shrink-0 basis-24  text-center text-sm bg-zinc-800 p-2 rounded-md cursor-pointer hover:bg-zinc-700 data-[select=true]:bg-zinc-600 duration-200 md:text-base md:basis-32"
+                  className="shrink-0 basis-20  text-center text-sm bg-zinc-800 p-2 rounded-md cursor-pointer hover:bg-zinc-700 data-[select=true]:bg-zinc-600 duration-200 md:text-base sm:basis-28"
                   data-select={language.lang === langChoice.response.lang}
                   onClick={() =>
                     handleLangResponse(language.lang, language.name)
