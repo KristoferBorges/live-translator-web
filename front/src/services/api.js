@@ -1,9 +1,4 @@
-<<<<<<< HEAD
-const API_URL = 'https://web-production-b963.up.railway.app/api/translate/';
-=======
-const API_URL =
-  'https://chat-translate.up.railway.app/api/translate/';
->>>>>>> fastapi
+const API_URL = 'https://chat-translate.up.railway.app/api/translate/';
 
 export const TEXT_POST = (body) => {
   return {
