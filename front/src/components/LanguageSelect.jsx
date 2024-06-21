@@ -165,14 +165,17 @@ const LanguageSelect = () => {
 
       {/* Languages Display */}
       <Tooltip position="top" content="Selecionar idiomas de tradução">
-        <div
-          className="flex items-center justify-between relative hover:bg-neutral-800 rounded-md px-2 py-1 cursor-pointer w-full md:p-3"
+        <button
+          className="flex justify-between relative hover:bg-neutral-800 rounded-md px-2 py-1 cursor-pointer w-full md:p-3"
           onClick={handleOpenSelect}
           aria-expanded={openSelect}
+          aria-label="selecionar idiomas de tradução"
         >
           <div>
             <h3 className="font-bold text-sm md:text-base">Idioma de fala:</h3>
-            <span className="text-xs md:text-sm">{langChoice.prefer.name}</span>
+            <span className="text-xs text-left md:text-sm">
+              {langChoice.prefer.name}
+            </span>
           </div>
           <IoIosArrowUp
             size={24}
@@ -180,14 +183,14 @@ const LanguageSelect = () => {
             data-rotate={openSelect}
           />
           <div>
-            <h3 className="font-bold text-sm md:text-base">
+            <h3 className="font-bold text-sm  md:text-base">
               Idioma de tradução:
             </h3>
-            <span className="text-xs md:text-sm">
+            <span className="text-xs md:text-sm ">
               {langChoice.response.name}
             </span>
           </div>
-        </div>
+        </button>
       </Tooltip>
     </article>
   );

@@ -2,15 +2,22 @@ const API_URL = 'https://web-production-b963.up.railway.app/api/translate/';
 
 export const TEXT_POST = (body) => {
   return {
-    url: API_URL + 'texto',
-    content: body,
+    optionsJSON: {
+      url: API_URL + 'texto',
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: body,
+    },
   };
 };
 
 export const AUDIO_GET = (id) => {
   return {
-    url: API_URL + 'get-audio/' + id,
-    options: {
+    optionsAudio: {
+      url: API_URL + 'get-audio/' + id,
+      method: 'GET',
       headers: {
         'Content-Type': 'audio/mpeg',
       },

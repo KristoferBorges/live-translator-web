@@ -27,21 +27,21 @@ const TranslatorProvider = ({ children }) => {
       const ID = Math.floor(Math.random() * 10_000);
 
       //use function from services/api.js
-      const { url, content } = TEXT_POST({
+      const { optionsJSON } = TEXT_POST({
         prefer: langChoice.prefer.lang,
         response: langChoice.response.lang,
         text: menssageText,
         id: ID,
       });
-      const { url: urlAudio, options } = AUDIO_GET(ID);
+      const { optionsAudio } = AUDIO_GET(ID);
 
       setIsLoading(true);
       setAudioUrl(null);
       setChats((prev) => [...prev, { me: menssageText }]);
 
       const [textResponse, audioResponse] = await Promise.all([
-        axios.post(url, content),
-        axios.get(urlAudio, options),
+        axios(optionsJSON),
+        axios(optionsAudio),
       ]);
       const { translated_text } = textResponse.data;
       const URLblobAudio = URL.createObjectURL(audioResponse.data);
@@ -52,6 +52,7 @@ const TranslatorProvider = ({ children }) => {
       localStorage.setItem('Languages', JSON.stringify(langChoice));
     } catch (err) {
       setChats((prev) => [...prev, { bot: `${err}` }]);
+      console.error(audioResponse);
     } finally {
       setIsLoading(false);
     }
