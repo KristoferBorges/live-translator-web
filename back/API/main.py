@@ -150,12 +150,18 @@ class ModeTranslate:
 
 mode_translate = ModeTranslate()
 
+<<<<<<< HEAD
 @app.route("/api/translate/texto", methods=["POST"])
 async def post_translate_text():
+=======
+@app.post("/api/translate/texto")
+async def post_translate_text(request: Request, request_data: TranslateRequestText):
+>>>>>>> fastapi
     try:
         request_data = TranslateRequestText(**request.json)
         user_agent_str = request.headers.get('user-agent')
         translated_text = mode_translate.traduzirTexto(request_data.prefer,
+<<<<<<< HEAD
                                                        request_data.response,
                                                        request_data.text,
                                                        request_data.id,
@@ -163,6 +169,16 @@ async def post_translate_text():
         return jsonify({"translated_text": translated_text.capitalize()})
     except Exception as e:
         return jsonify({"error": f"Erro: {e}"}), 500
+=======
+                                                        request_data.response,
+                                                        request_data.text,
+                                                        request_data.id,
+                                                        user_agent_str)
+        return {"translated_text": translated_text.capitalize()}
+    except Exception as e:
+        print(f"Erro: {e}")
+        return {"error": str(e)}
+>>>>>>> fastapi
 
 @app.route("/api/translate/get-audio/<int:id>", methods=["GET"])
 async def get_translate_audio(id):
@@ -175,7 +191,16 @@ async def get_translate_audio(id):
             return jsonify({"error": "Arquivo de áudio não encontrado."}), 404
         return send_file(file_path, mimetype='audio/mpeg', as_attachment=False)
     except Exception as e:
+<<<<<<< HEAD
         return jsonify({"error": f"Erro: {e}"}), 500
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
+=======
+        print(f"Erro: {e}")
+
+# Apenas utilize esse campo caso queira rodar no localhost
+"""if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app)"""
+>>>>>>> fastapi
