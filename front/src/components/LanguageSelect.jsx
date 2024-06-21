@@ -87,11 +87,11 @@ const LanguageSelect = () => {
       {/* language select menu */}
       {openSelect && (
         <div
-          className="absolute w-full left-0 bottom-20 flex flex-col gap-3 bg-zinc-900 rounded-md p-3 mb-1 z-10"
+          className="absolute w-full left-0 bottom-14 flex flex-col gap-3 bg-zinc-900 rounded-md p-3 mb-1 z-50 md:bottom-24"
           aria-hidden={!openSelect}
         >
           <div>
-            <h3 className="mb-2">Idioma de fala:</h3>
+            <h3 className="mb-2 font-medium">Idioma de fala:</h3>
             {/* input  */}
             <div className="h-10 my-4 border-b-2 border-zinc-600 pb-2">
               <input
@@ -103,7 +103,7 @@ const LanguageSelect = () => {
               />
             </div>
             {/* Languages container */}
-            <div className="flex flex-wrap gap-2 max-h-24 scroll-custom overflow-y-auto">
+            <div className="flex flex-wrap gap-2 max-h-20 scroll-custom overflow-y-auto md:max-h-28">
               {FilteredPreferLanguages?.map((language, index) => (
                 <button
                   key={language + index}
@@ -130,7 +130,7 @@ const LanguageSelect = () => {
             </Tooltip>
           </div>
           <div>
-            <h3 className="mb-2">Idioma de tradução:</h3>
+            <h3 className="mb-2 font-medium">Idioma de tradução:</h3>
             {/* Input  */}
             <div className="h-10 my-4 border-b-2 border-zinc-600 pb-2">
               <input
@@ -143,7 +143,7 @@ const LanguageSelect = () => {
             </div>
 
             {/* Languages container */}
-            <div className="flex flex-wrap gap-2 max-h-24 scroll-custom overflow-y-auto">
+            <div className="flex flex-wrap gap-2 max-h-20 scroll-custom overflow-y-auto md:max-h-28">
               {FilteredResponseLanguages?.map((language, index) => (
                 <button
                   key={language + index}
@@ -164,27 +164,31 @@ const LanguageSelect = () => {
       {/* END language select menu */}
 
       {/* Languages Display */}
-      <div
-        className="flex items-center justify-between relative z-0 hover:bg-neutral-800 rounded-md p-2  cursor-pointer"
-        onClick={handleOpenSelect}
-        aria-expanded={openSelect}
-      >
-        <div>
-          <h3 className="font-bold text-sm md:text-base">Idioma de fala:</h3>
-          <span className="text-xs md:text-sm">{langChoice.prefer.name}</span>
+      <Tooltip position="top" content="Selecionar idiomas de tradução">
+        <div
+          className="flex items-center justify-between relative hover:bg-neutral-800 rounded-md px-2 py-1 cursor-pointer w-full md:p-3"
+          onClick={handleOpenSelect}
+          aria-expanded={openSelect}
+        >
+          <div>
+            <h3 className="font-bold text-sm md:text-base">Idioma de fala:</h3>
+            <span className="text-xs md:text-sm">{langChoice.prefer.name}</span>
+          </div>
+          <IoIosArrowUp
+            size={24}
+            className="data-[rotate=true]:rotate-180 duration-200 self-start ml-2 absolute -top-5 left-1/2 -translate-x-1/2 bg-neutral-700 rounded-full p-1 -z-10"
+            data-rotate={openSelect}
+          />
+          <div>
+            <h3 className="font-bold text-sm md:text-base">
+              Idioma de tradução:
+            </h3>
+            <span className="text-xs md:text-sm">
+              {langChoice.response.name}
+            </span>
+          </div>
         </div>
-        <IoIosArrowUp
-          size={24}
-          className="data-[rotate=true]:rotate-180 duration-200 self-start ml-2 absolute -top-5 left-1/2 -translate-x-1/2 bg-neutral-700 rounded-full p-1"
-          data-rotate={openSelect}
-        />
-        <div>
-          <h3 className="font-bold text-sm md:text-base">
-            Idioma de tradução:
-          </h3>
-          <span className="text-xs md:text-sm">{langChoice.response.name}</span>
-        </div>
-      </div>
+      </Tooltip>
     </article>
   );
 };

@@ -62,8 +62,7 @@ const Footer = () => {
                 onClick={handleMicClick}
                 className={`${
                   listening ? 'text-blue-600' : 'text-neutral-300'
-                } cursor-pointer`}
-                size={24}
+                } cursor-pointer text-2xl  md:text-3xl`}
                 aria-label="ENviar mensagem por voz"
               />
             </Tooltip>
@@ -77,9 +76,8 @@ const Footer = () => {
           <Tooltip content="Enviar mensagem" position="left">
             <ButtonIcon
               icon={FaCircleArrowUp}
-              className="text-zinc-400 disabled:text-zinc-600"
+              className="text-zinc-400 disabled:text-zinc-600 text-2xl md:text-3xl"
               disabled={message.length < 2 || isLoading}
-              size={26}
               aria-label="Enviar mensagem"
             />
           </Tooltip>
