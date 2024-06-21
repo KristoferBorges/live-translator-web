@@ -27,32 +27,26 @@ const TranslatorProvider = ({ children }) => {
       const ID = Math.floor(Math.random() * 10_000);
 
       //use function from services/api.js
-      const { optionsJSON } = TEXT_POST({
+      const { optionsText } = TEXT_POST({
         prefer: langChoice.prefer.lang,
         response: langChoice.response.lang,
         text: menssageText,
         id: ID,
       });
-      const { optionsAudio } = AUDIO_GET(ID);
+      const { url: urlAudio, options } = AUDIO_GET(ID);
 
       setIsLoading(true);
       setAudioUrl(null);
       setChats((prev) => [...prev, { me: menssageText }]);
 
       const [textResponse, audioResponse] = await Promise.all([
-        axios(optionsJSON),
-        axios(optionsAudio),
+        axios(optionsText),
+        fetch(urlAudio, options),
       ]);
-
-      if (textResponse.status !== 200) {
-        throw new Error('Erro ao traduzir o texto: ' + textResponse.statusText);
-      }
-      if (audioResponse.status !== 200) {
-        throw new Error('Erro ao obter o áudio: ' + audioResponse.statusText);
-      }
+      const audioBlob = await audioResponse.blob();
 
       const { translated_text } = textResponse.data;
-      const URLblobAudio = URL.createObjectURL(audioResponse.data);
+      const URLblobAudio = URL.createObjectURL(audioBlob);
 
       setAudioUrl(URLblobAudio);
       setChats((prev) => [...prev, { bot: translated_text }]);
