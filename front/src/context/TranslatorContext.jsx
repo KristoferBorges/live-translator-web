@@ -41,12 +41,10 @@ const TranslatorProvider = ({ children }) => {
 
       const [textResponse, audioResponse] = await Promise.all([
         axios.post(url, content),
-        fetch(urlAudio, options),
+        axios.get(urlAudio, options),
       ]);
-      const audioBlob = await audioResponse.blob();
-
       const { translated_text } = textResponse.data;
-      const URLblobAudio = URL.createObjectURL(audioBlob);
+      const URLblobAudio = URL.createObjectURL(audioResponse.data);
 
       setAudioUrl(URLblobAudio);
       setChats((prev) => [...prev, { bot: translated_text }]);
