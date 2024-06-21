@@ -170,19 +170,18 @@ class ModeTranslate:
 mode_translate = ModeTranslate()
 
 @app.post("/api/translate/texto")
-async def post_translate_text(request: Request,
-                              request_data: TranslateRequestText):
+async def post_translate_text(request: Request, request_data: TranslateRequestText):
     try:
         user_agent_str = request.headers.get('user-agent')
         translated_text = mode_translate.traduzirTexto(request_data.prefer,
-                                                    request_data.response,
-                                                    request_data.text,
-                                                    request_data.id,
-                                                    user_agent_str)
+                                                        request_data.response,
+                                                        request_data.text,
+                                                        request_data.id,
+                                                        user_agent_str)
         return {"translated_text": translated_text.capitalize()}
-    
     except Exception as e:
-            print(f"Erro: {e}")
+        print(f"Erro: {e}")
+        return {"error": str(e)}
 
 @app.get("/api/translate/get-audio/{id}")
 async def get_translate_audio(id: int):
@@ -195,12 +194,8 @@ async def get_translate_audio(id: int):
                             filename='arquivo.mp3')
     except Exception as e:
             print(f"Erro: {e}")
-    
-    finally:
-        asyncio.create_task(mode_translate.limparAudios())
-    
-if __name__ == '__main__':
-    
+
+# Apenas utilize esse campo caso queira rodar no localhost
+"""if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0")
-    
+    uvicorn.run(app)"""
