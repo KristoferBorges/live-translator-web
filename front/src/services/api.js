@@ -1,5 +1,5 @@
 const API_URL =
-  'https://web-production-b963.up.railway.app/api/translate/';
+  'https://chat-translate.up.railway.app/api/translate/';
 
 export const TEXT_POST = (body) => {
   return {
