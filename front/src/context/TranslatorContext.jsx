@@ -43,6 +43,14 @@ const TranslatorProvider = ({ children }) => {
         axios(optionsJSON),
         axios(optionsAudio),
       ]);
+
+      if (textResponse.status !== 200) {
+        throw new Error('Erro ao traduzir o texto: ' + textResponse.statusText);
+      }
+      if (audioResponse.status !== 200) {
+        throw new Error('Erro ao obter o áudio: ' + audioResponse.statusText);
+      }
+
       const { translated_text } = textResponse.data;
       const URLblobAudio = URL.createObjectURL(audioResponse.data);
 
@@ -52,7 +60,7 @@ const TranslatorProvider = ({ children }) => {
       localStorage.setItem('Languages', JSON.stringify(langChoice));
     } catch (err) {
       setChats((prev) => [...prev, { bot: `${err}` }]);
-      console.error(audioResponse);
+      console.error('Erro na requisição:', err);
     } finally {
       setIsLoading(false);
     }
