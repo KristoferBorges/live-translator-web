@@ -193,7 +193,7 @@ async def get_translate_audio(id: int):
                             media_type='audio/mpeg',
                             filename='arquivo.mp3')
     except Exception as e:
-            print(f"Erro: {e}")
+        print(f"Erro: {e}")
 
 # Apenas utilize esse campo caso queira rodar no localhost
 """if __name__ == "__main__":
