@@ -1,19 +1,30 @@
-from flask import Flask, request, jsonify, send_file
+from fastapi import FastAPI, Request
+from fastapi.responses import FileResponse
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from gtts import gTTS
 from googletrans import Translator
 import pandas as pd
+import openpyxl
 import os
 from datetime import datetime
 import user_agents
 import pytz
 import asyncio
 
-app = Flask(__name__)
+app = FastAPI()
 
-# Configure CORS manually in Flask
-from flask_cors import CORS
-CORS(app)
+# Configure CORS
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST"],
+    allow_headers=["*"],
+)
+
 
 class TranslateRequestText(BaseModel):
     prefer: str
@@ -23,6 +34,7 @@ class TranslateRequestText(BaseModel):
 
 
 class ModeTranslate:
+
     idiomas_map = {
         'en': 'Inglês',
         'es': 'Espanhol',
@@ -47,9 +59,11 @@ class ModeTranslate:
         self.audio_dir = 'audio'
         if not os.path.exists(self.audio_dir):
             os.makedirs(self.audio_dir)
-        self.file_path = os.path.join(self.audio_dir, 'audiotranslatedText.mp3')
+        self.file_path = os.path.join(self.audio_dir,
+                                      'audiotranslatedText.mp3')
 
-    def coletarDados(self, language1, language2, text_enviado, text_traduzido, user_agent_str):
+    def coletarDados(self, language1, language2, text_enviado, text_traduzido,
+                     user_agent_str):
         try:
             file_path = 'dados/coletaDeDados.xlsx'
             if not os.path.exists('dados'):
@@ -81,7 +95,8 @@ class ModeTranslate:
             sistema_operacional = ua.os.family
 
             timezone = pytz.timezone('America/Sao_Paulo')
-            horario_acessado = datetime.now(timezone).strftime('%d-%m-%Y %H:%M:%S')
+            horario_acessado = datetime.now(timezone).strftime(
+                '%d-%m-%Y %H:%M:%S')
 
             text_enviado = text_enviado.capitalize()
             text_traduzido = text_traduzido.capitalize()
@@ -112,12 +127,16 @@ class ModeTranslate:
                 language2 = language2[:2]
 
             translator = Translator()
-            translatedText = translator.translate(texto, src=language1, dest=language2)
+            translatedText = translator.translate(texto,
+                                                  src=language1,
+                                                  dest=language2)
 
             audio = gTTS(text=translatedText.text, lang=language2)
-            self.coletarDados(language1, language2, texto, translatedText.text, user_agent_str)
+            self.coletarDados(language1, language2, texto, translatedText.text,
+                              user_agent_str)
 
-            self.file_path = os.path.join(self.audio_dir, f'audiotranslatedText{id}.mp3')
+            self.file_path = os.path.join(self.audio_dir,
+                                          f'audiotranslatedText{id}.mp3')
             audio.save(self.file_path)
 
             return translatedText.text
@@ -126,10 +145,10 @@ class ModeTranslate:
 
     async def limparAudios(self):
         """
-        Função Responsável por excluir arquivos mp3 temporários
+        Função Responsavel por excluir arquivos mp3 temporarios
         """
         try:
-            await asyncio.sleep(100)
+            await asyncio.sleep(10)
             for file in os.listdir(self.audio_dir):
                 if file.endswith(".mp3"):
                     os.remove(os.path.join(self.audio_dir, file))
@@ -138,7 +157,7 @@ class ModeTranslate:
 
     def __del__(self):
         """
-        Função Responsável por excluir arquivos mp3 temporários
+        Função Responsavel por excluir arquivos mp3 temporarios
         """
         try:
             for file in os.listdir(self.audio_dir):
@@ -146,30 +165,15 @@ class ModeTranslate:
                     os.remove(os.path.join(self.audio_dir, file))
         except Exception as e:
             print(f"Erro: {e}")
-
+        
 
 mode_translate = ModeTranslate()
 
-<<<<<<< HEAD
-@app.route("/api/translate/texto", methods=["POST"])
-async def post_translate_text():
-=======
 @app.post("/api/translate/texto")
 async def post_translate_text(request: Request, request_data: TranslateRequestText):
->>>>>>> fastapi
     try:
-        request_data = TranslateRequestText(**request.json)
         user_agent_str = request.headers.get('user-agent')
         translated_text = mode_translate.traduzirTexto(request_data.prefer,
-<<<<<<< HEAD
-                                                       request_data.response,
-                                                       request_data.text,
-                                                       request_data.id,
-                                                       user_agent_str)
-        return jsonify({"translated_text": translated_text.capitalize()})
-    except Exception as e:
-        return jsonify({"error": f"Erro: {e}"}), 500
-=======
                                                         request_data.response,
                                                         request_data.text,
                                                         request_data.id,
@@ -178,29 +182,20 @@ async def post_translate_text(request: Request, request_data: TranslateRequestTe
     except Exception as e:
         print(f"Erro: {e}")
         return {"error": str(e)}
->>>>>>> fastapi
 
-@app.route("/api/translate/get-audio/<int:id>", methods=["GET"])
-async def get_translate_audio(id):
+@app.get("/api/translate/get-audio/{id}")
+async def get_translate_audio(id: int):
     try:
         file_path = os.path.join('audio', f'audiotranslatedText{id}.mp3')
-        print(file_path)
-        # timer para aguardar
-        await asyncio.sleep(1)
         if not os.path.exists(file_path):
-            return jsonify({"error": "Arquivo de áudio não encontrado."}), 404
-        return send_file(file_path, mimetype='audio/mpeg', as_attachment=False)
+            return {"error": "Audio file not found."}
+        return FileResponse(file_path,
+                            media_type='audio/mpeg',
+                            filename='arquivo.mp3')
     except Exception as e:
-<<<<<<< HEAD
-        return jsonify({"error": f"Erro: {e}"}), 500
-
-if __name__ == '__main__':
-    app.run(host='0.0.0.0')
-=======
         print(f"Erro: {e}")
 
 # Apenas utilize esse campo caso queira rodar no localhost
 """if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app)"""
->>>>>>> fastapi
