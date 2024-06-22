@@ -6,8 +6,9 @@ import { FaPlay, FaPause } from 'react-icons/fa';
 import Tooltip from './Tolltip';
 
 const ChatTranslate = () => {
-  const { chats, audioUrl } = useContext(TranslatorContext);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const { chats, audioUrl, isPlaying, setIsPlaying } =
+    useContext(TranslatorContext);
+
   const chatRef = useRef();
   const audioRef = useRef();
 
@@ -26,6 +27,13 @@ const ChatTranslate = () => {
     chatRef.current.scrollTop = chatRef.current.scrollHeight;
     setIsPlaying(false);
   }, [chats]);
+
+  useEffect(() => {
+    if (audioUrl && isPlaying) {
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+  }, [audioUrl, isPlaying]);
 
   return (
     <main className="px-3 overflow-y-auto scroll-custom flex-1" ref={chatRef}>

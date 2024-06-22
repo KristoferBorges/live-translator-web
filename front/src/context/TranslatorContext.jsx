@@ -7,6 +7,9 @@ const TranslatorContext = createContext();
 const TranslatorProvider = ({ children }) => {
   const [message, setMessage] = useState('');
   const [chats, setChats] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [audioUrl, setAudioUrl] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
   const [langChoice, setLangChoice] = useState({
     prefer: {
       lang: 'pt',
@@ -17,8 +20,6 @@ const TranslatorProvider = ({ children }) => {
       name: 'Inglês',
     },
   });
-  const [isLoading, setIsLoading] = useState(false);
-  const [audioUrl, setAudioUrl] = useState(null);
 
   const sendMessage = async (transcript) => {
     try {
@@ -52,6 +53,9 @@ const TranslatorProvider = ({ children }) => {
       setChats((prev) => [...prev, { bot: translated_text }]);
       //set langChoice to local Storage for persistence data
       localStorage.setItem('Languages', JSON.stringify(langChoice));
+
+      //set isPlaying to true if transcript is not null
+      if (transcript) setIsPlaying(true);
     } catch (err) {
       setChats((prev) => [...prev, { bot: `${err}` }]);
       console.error('Erro na requisição:', err);
@@ -81,6 +85,8 @@ const TranslatorProvider = ({ children }) => {
         setIsLoading,
         sendMessage,
         audioUrl,
+        isPlaying,
+        setIsPlaying,
       }}
     >
       {children}
