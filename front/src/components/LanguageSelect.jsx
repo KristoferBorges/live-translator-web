@@ -117,18 +117,7 @@ const LanguageSelect = () => {
               ))}
             </div>
           </div>
-          {/* Button to change between two languages */}
-          <div className="self-center">
-            <Tooltip content="Inverter linguagens" position="top">
-              <ButtonIcon
-                icon={FaExchangeAlt}
-                className="bg-zinc-400 text-zinc-900 rounded-md py-2 px-7  uppercase font-medium my-1"
-                size={20}
-                onClick={handleInvertLanguage}
-                aria-label="inverter linguagens"
-              />
-            </Tooltip>
-          </div>
+
           <div>
             <h3 className="mb-2 font-medium">Idioma de tradução:</h3>
             {/* Input  */}
@@ -171,27 +160,33 @@ const LanguageSelect = () => {
           aria-expanded={openSelect}
           aria-label="selecionar idiomas de tradução"
         >
-          <div>
-            <h3 className="font-bold text-sm md:text-base">Idioma de fala:</h3>
-            <span className="text-xs text-left md:text-sm">
-              {langChoice.prefer.name}
-            </span>
+          <div className="text-left">
+            <h3 className="font-bold text-sm md:text-base">Escrita:</h3>
+            <span className="text-xs md:text-sm">{langChoice.prefer.name}</span>
           </div>
           <IoIosArrowUp
             size={24}
-            className="data-[rotate=true]:rotate-180 duration-200 self-start ml-2 absolute -top-5 left-1/2 -translate-x-1/2 bg-neutral-700 rounded-full p-1 -z-10"
-            data-rotate={openSelect}
+            className="self-start ml-2 absolute -top-6 left-1/2 -translate-x-3/4 bg-neutral-700 rounded-full p-1 -z-10"
           />
-          <div>
-            <h3 className="font-bold text-sm  md:text-base">
-              Idioma de tradução:
-            </h3>
+          <div className="text-left">
+            <h3 className="font-bold text-sm  md:text-base">Tradução:</h3>
             <span className="text-xs md:text-sm ">
               {langChoice.response.name}
             </span>
           </div>
         </button>
       </Tooltip>
+      {/* Button to change between two languages */}
+      <div className="flex justify-center py-1">
+        <Tooltip content="Inverter linguagens" position="top">
+          <ButtonIcon
+            icon={FaExchangeAlt}
+            className="bg-zinc-400 text-zinc-900 rounded-md py-1 px-4  uppercase font-medium my-1 text-lg"
+            onClick={handleInvertLanguage}
+            aria-label="inverter linguagens"
+          />
+        </Tooltip>
+      </div>
     </article>
   );
 };
