@@ -50,7 +50,6 @@ class ModeTranslate:
         'it': 'Italiano',
         'ko': 'Coreano',
         'vi': 'Vietnamita',
-        'fa': 'Persa',
         'ur': 'Urdu',
         'tr': 'Turco',
     }
