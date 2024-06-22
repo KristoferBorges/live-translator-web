@@ -87,7 +87,7 @@ const LanguageSelect = () => {
       {/* language select menu */}
       {openSelect && (
         <div
-          className="absolute w-full left-0 bottom-24 flex flex-col gap-3 bg-zinc-900 rounded-md p-3 mb-1 z-50 md:bottom-24"
+          className="absolute w-full left-0 bottom-24 flex flex-col gap-3 bg-zinc-900 rounded-md p-3 mb-1 z-50 md:bottom-28"
           aria-hidden={!openSelect}
         >
           <div>
