@@ -56,10 +56,6 @@ const LanguagesAvailable = [
     name: 'Vietnamita',
   },
   {
-    lang: 'fa',
-    name: 'Persa',
-  },
-  {
     lang: 'ur',
     name: 'Urdu',
   },
