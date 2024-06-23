@@ -1,4 +1,4 @@
-const API_URL = 'https://chat-translate.up.railway.app/api/translate/';
+const API_URL = 'http://127.0.0.1:8000/api/translate/';
 
 export const TEXT_POST = (body) => {
   return {

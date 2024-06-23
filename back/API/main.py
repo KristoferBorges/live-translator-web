@@ -196,6 +196,6 @@ async def get_translate_audio(id: int):
         return {"error": str(e)}
 
 # Apenas utilize esse campo caso queira rodar no localhost
-"""if __name__ == "__main__":
+if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app)"""
+    uvicorn.run(app)

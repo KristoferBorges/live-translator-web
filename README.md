@@ -1,4 +1,4 @@
-# Live-Translator  Web
+# Chat-Translate Web
 
 Software desenvolvido por Kristofer Borges & José Lucas, o inicio do projeto foi na data 27/05/2024.
 
