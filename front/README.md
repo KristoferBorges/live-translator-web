@@ -1,4 +1,6 @@
- # Live Translator Web
+![Alt Text](./src/assets/preview.png)
+
+# Live Translator Web
 
 Este projeto é a parte front-end de um tradutor em formato de chat, desenvolvido usando Vite, React.js e Tailwind CSS.
 
