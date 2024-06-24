@@ -10,3 +10,7 @@ Consiste em facilitar a conversação entre 2 pessoas que não falam a mesma lin
 
 Front-End = Reactjs e Tailwindcss |
 Back-End = Python
+
+## Documentação da API
+
+Para acessar a documentação completa da API, visite: (http://seu-endereco/docs)
