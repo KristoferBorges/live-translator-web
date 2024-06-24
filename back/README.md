@@ -1,4 +1,4 @@
-# Chat Translate Web
+# Live Translator Web
 
 Este projeto é a parte back-end de um tradutor em formato de chat, desenvolvido usando Python (FastAPI).
 
@@ -67,6 +67,17 @@ Este projeto é a parte back-end de um tradutor em formato de chat, desenvolvido
      ```
        py .\back\API\main.py
      ```
+
+## Bibliotecas:
+- fastapi: Framework web moderno e rápido para construir APIs com Python 3.6+.
+- pydantic: Validação de dados e parsing baseado em tipos.
+- gtts: Google Text-to-Speech, converte texto em áudio.
+- googletrans: Biblioteca para tradução de texto usando o Google Translate.
+- pandas: Biblioteca para manipulação e análise de dados.
+- openpyxl: Biblioteca para ler e escrever arquivos Excel (xlsx).
+- user_agents: Biblioteca para analisar strings de user-agent.
+- pytz: Biblioteca para fuso horário do mundo.
+- asyncio: Biblioteca para programação assíncrona em Python.
 
 # Documentação da API
 - Para acessar a documentação completa da API, visite: (http://seu-endereco/docs)
