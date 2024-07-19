@@ -15,7 +15,7 @@ import asyncio
 app = FastAPI()
 
 # Configure CORS
-origins = ["*"]
+origins = ["https://chat-translate-taupe.vercel.app"]
 
 app.add_middleware(
     CORSMiddleware,
